@@ -1,25 +1,26 @@
 Comparazione tripadvisor booking
 
 -Nome
--Indirizzo
+-Via
+-Citt√†
 -Nazione
 -Numero recensioni
 -Media voto
 -Servizio
--Qualit‡ prezzo
+-Qualit√† prezzo
 
 
 Come fare il merge?
 
-1∞ problema:tripadvisor valuta da 0 a 5,booking da 0 a 10->necessit‡ di normalizzare uno 
-dei due (tendenzialmene preferirei tripadvisor,una scala da 0 a 10 Ë pi˘ leggibile)
-2∞ problema: il numero di recensioni conta quando si fa il merge? potremmo usarle come
+1¬∞ problema:tripadvisor valuta da 0 a 5,booking da 0 a 10->necessit√† di normalizzare uno 
+dei due (tendenzialmene preferirei tripadvisor,una scala da 0 a 10 √® pi√π leggibile)
+2¬∞ problema: il numero di recensioni conta quando si fa il merge? potremmo usarle come
 peso al fine della valutazione finale
 (esempio peso tripadvisor=numeroRecensioniTripadvisor/numeroRecensioniT+numeroRecensioniB
 peso booking=numeroRecensioniB/numeroRecensioniT+numeroRecensioniB; oppure usare 
 direttamente il numero di recensioni come peso.
 media ponderata= sommatoria prodotti peso*valutazione/sommatoria pesi;a quel punto
-il numero di recensioni totali Ë la loro somma)
+il numero di recensioni totali √® la loro somma)
 
 che statistiche e analytics vogliamo ottenere?
 
@@ -27,14 +28,14 @@ statistiche:
 
 -media media voto a livello nazionale
 -media servizio a livello nazionale
--media qualit‡ prezzo a livello nazionale
--per ogni citt‡,fare una media delle medie voto degli hotel
+-media qualit√† prezzo a livello nazionale
+-per ogni citt√†,fare una media delle medie voto degli hotel
 
 
 analytics:
--quale dei 2 campi Ë il pi˘ apprezzato in media,quale il meno,quale il pi˘
+-quale dei 2 campi √® il pi√π apprezzato in media,quale il meno,quale il pi√π
 -all'interno della valutazione terribile(<=1) di quella media(5<=x<=6) e quella ottima(>=9)
-cosa si apprezza di pi˘ e di meno(cosÏ giustifichiamo un indice per nazione-media voto)
+cosa si apprezza di pi√π e di meno(cos√¨ giustifichiamo un indice per nazione-media voto)
 
 qualche grafico? istogrammi per vedere la distribuzione delle 3 statistiche medie?
 (quanti hotel ci sono per ogni media->utile indice a livello nazionale)
@@ -45,6 +46,6 @@ per arrivare a 200Mb?
 mi serve a qualcosa avere l'ultima recensione?
 
 indici usabili(3 minimi):
-sicuro uno a livello di nazione,indice per nazione-media voto,indice per nazione-citt‡
+sicuro uno a livello di nazione,indice per nazione-media voto,indice per nazione-citt√†
 
 
