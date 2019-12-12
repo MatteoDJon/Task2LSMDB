@@ -1,0 +1,50 @@
+Comparazione tripadvisor booking
+
+-Nome
+-Indirizzo
+-Nazione
+-Numero recensioni
+-Media voto
+-Servizio
+-Qualità prezzo
+
+
+Come fare il merge?
+
+1° problema:tripadvisor valuta da 0 a 5,booking da 0 a 10->necessità di normalizzare uno 
+dei due (tendenzialmene preferirei tripadvisor,una scala da 0 a 10 è più leggibile)
+2° problema: il numero di recensioni conta quando si fa il merge? potremmo usarle come
+peso al fine della valutazione finale
+(esempio peso tripadvisor=numeroRecensioniTripadvisor/numeroRecensioniT+numeroRecensioniB
+peso booking=numeroRecensioniB/numeroRecensioniT+numeroRecensioniB; oppure usare 
+direttamente il numero di recensioni come peso.
+media ponderata= sommatoria prodotti peso*valutazione/sommatoria pesi;a quel punto
+il numero di recensioni totali è la loro somma)
+
+che statistiche e analytics vogliamo ottenere?
+
+statistiche: 
+
+-media media voto a livello nazionale
+-media servizio a livello nazionale
+-media qualità prezzo a livello nazionale
+-per ogni città,fare una media delle medie voto degli hotel
+
+
+analytics:
+-quale dei 2 campi è il più apprezzato in media,quale il meno,quale il più
+-all'interno della valutazione terribile(<=1) di quella media(5<=x<=6) e quella ottima(>=9)
+cosa si apprezza di più e di meno(così giustifichiamo un indice per nazione-media voto)
+
+qualche grafico? istogrammi per vedere la distribuzione delle 3 statistiche medie?
+(quanti hotel ci sono per ogni media->utile indice a livello nazionale)
+
+
+per che nazioni vogliamo prendere i dati? tutte le europee?il numero sufficiente 
+per arrivare a 200Mb?
+mi serve a qualcosa avere l'ultima recensione?
+
+indici usabili(3 minimi):
+sicuro uno a livello di nazione,indice per nazione-media voto,indice per nazione-città
+
+
