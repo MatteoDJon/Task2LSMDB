@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c30b48dc-020b-487c-9202-3ecb1ac9b529" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cli/mainpanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/cli/mainpanel.py" afterDir="false" />
-    </list>
+    <list default="true" id="c30b48dc-020b-487c-9202-3ecb1ac9b529" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,15 +9,46 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="722">
-              <caret line="82" column="1" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
+            <state relative-caret-position="812">
+              <caret line="144" column="3" selection-start-line="144" selection-start-column="3" selection-end-line="144" selection-end-column="3" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/createDBHotel.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/task2Valutazioni.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/my_scraper/scraperBooking.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="573">
+              <caret line="154" column="12" lean-forward="true" selection-start-line="146" selection-start-column="13" selection-end-line="154" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/my_scraper/last_hotel_links.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="495" lean-forward="true" selection-start-line="18" selection-start-column="495" selection-end-line="18" selection-end-column="495" />
             </state>
           </provider>
         </entry>
@@ -44,8 +73,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="577" />
-    <option name="y" value="23" />
+    <option name="x" value="281" />
+    <option name="y" value="133" />
     <option name="width" value="1680" />
     <option name="height" value="963" />
   </component>
@@ -60,6 +89,11 @@
             <path>
               <item name="Task2LSMDB" type="b2602c69:ProjectViewProjectNode" />
               <item name="Task2LSMDB" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Task2LSMDB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Task2LSMDB" type="462c0819:PsiDirectoryNode" />
+              <item name="my_scraper" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -97,14 +131,23 @@
       <option name="presentableId" value="Default" />
       <updated>1577784112844</updated>
       <workItem from="1577784114032" duration="721000" />
+      <workItem from="1577800107417" duration="980000" />
     </task>
+    <task id="LOCAL-00001" summary="dsdsa">
+      <created>1577800118590</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1577800118590</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="721000" />
+    <option name="totallyTimeSpent" value="1701000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="22" y="23" width="1680" height="963" extended-state="0" />
+    <frame x="440" y="85" width="1680" height="963" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09583333" />
@@ -134,14 +177,41 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="dsdsa" />
+    <option name="LAST_COMMIT_MESSAGE" value="dsdsa" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="82" column="1" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
+        <state relative-caret-position="812">
+          <caret line="144" column="3" selection-start-line="144" selection-start-column="3" selection-end-line="144" selection-end-column="3" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createDBHotel.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task2Valutazioni.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my_scraper/scraperBooking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="573">
+          <caret line="154" column="12" lean-forward="true" selection-start-line="146" selection-start-column="13" selection-end-line="154" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my_scraper/last_hotel_links.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="495" lean-forward="true" selection-start-line="18" selection-start-column="495" selection-end-line="18" selection-end-column="495" />
         </state>
       </provider>
     </entry>

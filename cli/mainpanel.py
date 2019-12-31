@@ -2,6 +2,8 @@ import os
 import pymongo
 import datetime
 import getpass
+from pprint import pprint
+
 
 class Connect:
 
@@ -30,7 +32,7 @@ class Connect:
         plt = input("Select city or nation:\n")
         if plt == "city":
             for item in self.cities:
-                print(item[0]+"\n")
+                print(item[0] + "\n")
             city = input("Select city:\n")
             if city in self.dictionary.keys():
                 self.computeAnalysis(self.dictionary[city], "CityID")
@@ -40,12 +42,11 @@ class Connect:
             nation = input("Select nation:\n")
             if nation in self.dictionary.keys():
                 self.computeAnalysis(self.dictionary[nation], "NationID")
+
     def manageLogin(self):
 
-        user=getpass.getuser()
-        p=getpass.getpass()
-
-
+        user = getpass.getuser()
+        p = getpass.getpass()
 
     def computeAnalysis(self, place, type):
         now = datetime.datetime.now()  # current date and time
@@ -54,14 +55,38 @@ class Connect:
         year = now.strftime("%Y")
 
         db = self.client.test_database
+        hotel_list = db.hotels.find({type: place})
+        averall_avgs = {}
+        for hotel in hotel_list:
+            averages = []
 
+            for i in range(self.dates[month]):
+                averages.append([])
+            for id in hotel["reviewList"]:
+                rew = db.findOne({"_id": id})
+                # result = self.isAntecedent(rew["Day"], rew["Month"], rew[ "Year"])
+                if len(rew) != 0 and rew["Year"] == int(year) and rew["Day"] >= int(day):
+                    averages[self.dates[month] - 1].append(rew["Vote"])
+                    for i in range(len(averages)):
+                        temp = 0
+                        count = len(averages[i])
+                        for it in averages[i]:
+                            temp += it
+                        averages[i] = temp / count
+                    averall_avgs[hotel["_id"]] = [hotel["Name"], averages]
+        print("average rating vote from the reviews month by month of the current year:\n")
+        for i in averall_avgs:
+            print("TODO: show averall_avg")
 
-#print(i, averall_avgs[i])  # stampa _id, avg
+    def scoreboard(self, place, type):
+        place = "$" + place
+
+    # print(i, averall_avgs[i])  # stampa _id, avg
 
     def manageStatistics(self):
         opt = ["averageRating", "serviceRating", "cleanlinessRating", "positionRating"]
         for item in opt:
-            print(item+"\n")
+            print(item + "\n")
         chosen = input("Select evaluation attribute:\n")
         if chosen in opt:
             plt = input("Select city or nation:\n")
@@ -80,6 +105,7 @@ class Connect:
             else:
                 print("The option is not valid.\n")
                 return
+
     def computeAvg(self, chosen, place, type):
         db = self.client.test_database
         numPos = db.hotels.count_documents({"$and": [{chosen: {"$gt": 6}}, {type: place}]})
@@ -120,26 +146,3 @@ if __name__ == '__main__':
 
 
 
-
-'''
-        for hotel in hotel_list:
-            averages = []
-
-            for i in range(self.dates[month]):
-                averages.append([])
-            for id in hotel["reviewList"]:
-                rew = db.findOne({"_id": id})
-                # result = self.isAntecedent(rew["Day"], rew["Month"], rew[ "Year"])
-                if len(rew)!=0 and rew["Year"] == int(year) and rew["Day"]>=int(day):
-                    averages[self.dates[month] - 1].append(rew["Vote"])
-                    for i in range(len(averages)):
-                        temp = 0
-                        count = len(averages[i])
-                        for it in averages[i]:
-                            temp += it
-                        averages[i] = temp / count
-                    averall_avgs[hotel["_id"]] = [hotel["Name"], averages]
-        print("average rating vote from the reviews month by month of the current year:\n")
-        for i in averall_avgs:
-            print("This is the average review")
-'''
