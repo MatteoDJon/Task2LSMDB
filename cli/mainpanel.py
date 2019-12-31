@@ -53,33 +53,10 @@ class Connect:
         month = now.strftime("%m")
         year = now.strftime("%Y")
 
+        db = self.client.test_database
 
-        db = self.client.test_databahse
-        hotel_list = db.hotels.find({type: place})
-        # hotel_list contiene tutti gli hotel nel posto place
-        averall_avgs = {}
 
-        for hotel in hotel_list:
-            averages = []
-
-            for i in range(self.dates[month]):
-                averages.append([])
-            for id in hotel["reviewList"]:
-                rew = db.findOne({"_id": id})
-                # result = self.isAntecedent(rew["Day"], rew["Month"], rew[ "Year"])
-                if len(rew)!=0 and rew["Year"] == int(year) and rew["Day"]>=int(day):
-                    averages[self.dates[month] - 1].append(rew["Vote"])
-                    for i in range(len(averages)):
-                        temp = 0
-                        count = len(averages[i])
-                        for it in averages[i]:
-                            temp += it
-                        averages[i] = temp / count
-                    averall_avgs[hotel["_id"]] = [hotel["Name"], averages]
-        print("average rating vote from the reviews month by month of the current year:\n")
-        for i in averall_avgs:
-            print("This is the average review")
-            #print(i, averall_avgs[i])  # stampa _id, avg
+#print(i, averall_avgs[i])  # stampa _id, avg
 
     def manageStatistics(self):
         opt = ["averageRating", "serviceRating", "cleanlinessRating", "positionRating"]
@@ -140,3 +117,29 @@ if __name__ == '__main__':
             mongodb.manageStatistics()
             mongodb.close()
         print("Select an option:\n")
+
+
+
+
+'''
+        for hotel in hotel_list:
+            averages = []
+
+            for i in range(self.dates[month]):
+                averages.append([])
+            for id in hotel["reviewList"]:
+                rew = db.findOne({"_id": id})
+                # result = self.isAntecedent(rew["Day"], rew["Month"], rew[ "Year"])
+                if len(rew)!=0 and rew["Year"] == int(year) and rew["Day"]>=int(day):
+                    averages[self.dates[month] - 1].append(rew["Vote"])
+                    for i in range(len(averages)):
+                        temp = 0
+                        count = len(averages[i])
+                        for it in averages[i]:
+                            temp += it
+                        averages[i] = temp / count
+                    averall_avgs[hotel["_id"]] = [hotel["Name"], averages]
+        print("average rating vote from the reviews month by month of the current year:\n")
+        for i in averall_avgs:
+            print("This is the average review")
+'''
