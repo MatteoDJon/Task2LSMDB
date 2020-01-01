@@ -13,7 +13,6 @@ class Connect:
         self.logged=False
         self.dates = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9,
                       "oct": 10, "nov": 11, "dec": 12}
-        self.dictionary = {}  # contiene i codici corrispondenti a città e nazione
         self.logged_user=""
         self.users = {}
 
@@ -30,10 +29,6 @@ class Connect:
             return True, False
         else:
             return False, False
-    def updateDict(self, name, code):
-        if name not in self.dictionary.keys():
-            self.dictionary[name] = code
-
     def close(self):
         if self.client!="":
             self.client.close()
@@ -44,14 +39,14 @@ class Connect:
             for item in self.cities:
                 print(item)
             city = input("Select city:\n")
-            if city in self.dictionary.keys():
-                self.computeAnalysisCity(self.dictionary[city])
+            if city in self.cities.keys():
+                self.computeAnalysisCity(self.cities[city])
         elif plt == "nation":
             for item in self.nations:
                 print(item)
             nation = input("Select nation:\n")
-            if nation in self.dictionary.keys():
-                self.computeAnalysisNation(self.dictionary[nation])
+            if nation in self.nations.keys():
+                self.computeAnalysisNation(self.nations[nation])
 
     def manageLogin(self):
         if(self.logged==False):
