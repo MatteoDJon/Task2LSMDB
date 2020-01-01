@@ -42,13 +42,13 @@ class Connect:
         plt = input("Select city or nation:\n")
         if plt == "city":
             for item in self.cities:
-                print(item[0] + "\n")
+                print(item)
             city = input("Select city:\n")
             if city in self.dictionary.keys():
                 self.computeAnalysis(self.dictionary[city], "CityID")
         elif plt == "nation":
             for item in self.nations:
-                print(item[0])
+                print(item)
             nation = input("Select nation:\n")
             if nation in self.dictionary.keys():
                 self.computeAnalysis(self.dictionary[nation], "NationID")
@@ -139,8 +139,8 @@ class Connect:
                     return
             elif plt == "nation":
                 for item in self.nations:
-                    print(item[0])
-                nation = input("Select city:\n")
+                    print(item)
+                nation = input("Select nation:\n")
                 if nation in self.nations.keys():
                     self.computeAvg(chosen, self.nations[nation], "nationID")
                 else:
