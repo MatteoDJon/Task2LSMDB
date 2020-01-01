@@ -25,6 +25,7 @@ class Connect:
     def getConnection(self):
         if self.client==None:
             self.client= pymongo.MongoClient('mongodb://localhost:27017/')
+
         return self.client
     def isLogged(self):
         if self.logged and self.logged_user=="admin":
@@ -38,7 +39,7 @@ class Connect:
             self.dictionary[name] = code
 
     def close(self):
-        if self.client!=None:
+        if self.client!="":
             self.client.close()
 
     def manageAnalytics(self):
@@ -78,20 +79,15 @@ class Connect:
     def manageRegister(self):
 
         while(True):
+
             #get unique id with datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            db = self.client["test_database"]
 
             user=input("Username: ")
             pw=getpass.getpass()
-            if user not in self.users.keys() and pw!="":
-                self.users[user]=pw
-                print(self.users.keys())
-                self.logged=True
-                break
-            else:
-                if input(
-                        "Login not valid, press any key to continue or type exit to return to main menu!\n") == "exit":
-                    print("\n")
-                    break
+            coll=db.eco.insert_one({"user": user, "pw":pw })
+
+            break
 
     def computeAnalysis(self, place, type):
         now = datetime.datetime.now()  # current date and time
@@ -177,7 +173,7 @@ if __name__ == '__main__':
     print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
     mongodb=Connect()
     while (True):
-        chosen = input("Choice: ")
+        chosen = input("Choice:")
         # pid = os.fork()
         # if pid == 0:  # child process
         if chosen == "login":  # login
@@ -191,10 +187,10 @@ if __name__ == '__main__':
         if chosen == "register":  # register
             mongodb.getConnection()
             mongodb.manageRegister()
-        if chosen == "analytics":  # analitycs
-            mongodb = mongodb.getConnection()
+        if chosen == "read analytics":  # analitycs
+            mongodb.getConnection()
             mongodb.manageAnalytics()
-        if chosen == "statistics":  # statistics
+        if chosen == "read statistics":  # statistics
             mongodb.getConnection()
             mongodb.manageStatistics()
         if chosen== "help":
@@ -207,6 +203,8 @@ if __name__ == '__main__':
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
 
     mongodb.close()
+
+
 
 
 
