@@ -8,20 +8,16 @@ class Connect:
 
     def __init__(self):
         self.client = None
-        self.cities = [["Firenze", 4343]]
-        self.nations = [["Russia", 9090]]
+        self.cities = {"Firenze" :3456, "Bologna": 1, "Terni":2}
+        self.nations ={"Italia": 0,  "Iran":2000, "USA":1}
         self.logged=False
         self.dates = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9,
                       "oct": 10, "nov": 11, "dec": 12}
         self.dictionary = {}  # contiene i codici corrispondenti a città e nazione
         self.logged_user=""
         self.users = {}
-        for item in self.cities:
-            if item[0] not in self.dictionary.keys():
-                self.dictionary[item[0]] = item[1]
-        for item in self.nations:
-            if item[0] not in self.dictionary.keys():
-                self.dictionary[item[0]] = item[1]
+
+
     def getConnection(self):
         if self.client==None:
             self.client= pymongo.MongoClient('mongodb://localhost:27017/')
@@ -134,10 +130,10 @@ class Connect:
             plt = input("Select city or nation:\n")
             if plt == "city":
                 for item in self.cities:
-                    print(item[0])
+                    print(item)
                 city = input("Select city:\n")
-                if city in self.dictionary.keys():
-                    self.computeAvg(chosen, self.dictionary[city], "CityID")
+                if city in self.cities.keys():
+                    self.computeAvg(chosen, self.cities[city], "cityID")
                 else:
                     print("The option is not valid.\n")
                     return
@@ -145,8 +141,8 @@ class Connect:
                 for item in self.nations:
                     print(item[0])
                 nation = input("Select city:\n")
-                if nation in self.dictionary.keys():
-                    self.computeAvg(chosen, self.dictionary[nation], "NationID")
+                if nation in self.nations.keys():
+                    self.computeAvg(chosen, self.nations[nation], "nationID")
                 else:
                     print("The option is not valid.\n")
                     return
@@ -156,9 +152,9 @@ class Connect:
 
     def computeAvg(self, chosen, place, type):
         db = self.client.test_database
-        numPos = db.hotels.count_documents({"$and": [{chosen: {"$gt": 6}}, {type: place}]})
-        numNeg = db.hotels.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
-        numMed = db.hotels.count_documents({type: place}) - (numPos + numNeg)
+        numPos = db.hotel.count_documents({"$and": [{chosen: {"$gt": 6}}, {type: place}]})
+        numNeg = db.hotel.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
+        numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
         print(numPos, numNeg, numMed)
         # plot?
 
