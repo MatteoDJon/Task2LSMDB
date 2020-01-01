@@ -74,19 +74,9 @@ class Connect:
 
     def manageRegister(self):
 
-        while(True):
-
-            #get unique id with datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-            db = self.client["test_database"]
-
-            user=input("Username: ")
-            pw=getpass.getpass()
-            coll=db.eco.insert_one({"user": user, "pw":pw })
-
-            break
-
+        print("TODO")
     def computeAnalysisNation(self,  nation):
-
+        print("Month per month:")
         pipeline = [
         {
             "$match": {"year":2019, "nationID": nation}
@@ -98,6 +88,24 @@ class Connect:
         ]
         result=self.client.hotel.aggregate(pipeline)
         print(result)
+        pipeline1=[
+        {
+            "$match": {"nationID": nation}
+         },
+        {
+            "$group":
+                {"_id": "$month",
+                 "averageRatings": {"$avgrat": "$averageRating","$serRat": "$serviceRating" ,"$clrat": "cleanlinessRating","$posRat": "$positionRating"  }
+                 }
+
+        },
+        {
+        "$sort": {"averageRatings": -1}
+        }
+        ]
+        result1 = self.client.hotel.aggregate(pipeline1)
+        print(result1)
+
 
     def computeAnalysisCity(self, place):
         now = datetime.datetime.now()  # current date and time
