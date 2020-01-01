@@ -2,7 +2,6 @@ import os
 import pymongo
 import datetime
 import getpass
-from pprint import pprint
 
 
 class Connect:
