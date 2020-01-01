@@ -45,13 +45,13 @@ class Connect:
                 print(item)
             city = input("Select city:\n")
             if city in self.dictionary.keys():
-                self.computeAnalysis(self.dictionary[city], "CityID")
+                self.computeAnalysisCity(self.dictionary[city])
         elif plt == "nation":
             for item in self.nations:
                 print(item)
             nation = input("Select nation:\n")
             if nation in self.dictionary.keys():
-                self.computeAnalysis(self.dictionary[nation], "NationID")
+                self.computeAnalysisNation(self.dictionary[nation])
 
     def manageLogin(self):
         if(self.logged==False):
@@ -85,15 +85,30 @@ class Connect:
 
             break
 
-    def computeAnalysis(self, place, type):
+    def computeAnalysisNation(self,  nation):
+
+        pipeline = [
+        {
+            "$match": {"year":2019, "nationID": nation}
+         },
+        {
+            "$group":
+                {"_id": "$month",
+                 "average": {"$avg": "$Vote"}}}
+        ]
+        result=self.client.hotel.aggregate(pipeline)
+        print(result)
+
+    def computeAnalysisCity(self, place):
         now = datetime.datetime.now()  # current date and time
         day = now.strftime("%d")
         month = now.strftime("%m")
         year = now.strftime("%Y")
 
         db = self.client.test_database
-        hotel_list = db.hotels.find({type: place})
+        hotel_list = db.hotels.find({"cityID": place})
         averall_avgs = {}
+        hotel_names=[]
         for hotel in hotel_list:
             averages = []
 
@@ -110,11 +125,11 @@ class Connect:
                         for it in averages[i]:
                             temp += it
                         averages[i] = temp / count
-                    averall_avgs[hotel["_id"]] = [hotel["Name"], averages]
+                    averall_avgs[hotel["Name"]] = [ averages]
         print("average rating vote from the reviews month by month of the current year:\n")
         for i in averall_avgs:
-            print("TODO: show averall_avg")
-
+            print("The averages for current year for hotel "+i.key()+" are:\n")
+            print(i)
     def scoreboard(self, place, type):
         place = "$" + place
         db=self.client.test_database
