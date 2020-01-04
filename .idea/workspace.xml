@@ -12,18 +12,27 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Task2LSMDB$mainpanel.coverage" NAME="mainpanel Coverage Results" MODIFIED="1578128872014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cli" />
+    <SUITE FILE_PATH="coverage/Task2LSMDB$mainpanel.coverage" NAME="mainpanel Coverage Results" MODIFIED="1578154389535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cli" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="202" column="27" lean-forward="true" selection-start-line="194" selection-start-column="45" selection-end-line="202" selection-end-column="27" />
+            <state relative-caret-position="497">
+              <caret line="130" column="38" lean-forward="true" selection-start-line="130" selection-start-column="38" selection-end-line="130" selection-end-column="38" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/PycharmProjects/grafo/venv/lib/python3.7/site-packages/pymongo/topology.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2201">
+              <caret line="192" selection-start-line="192" selection-end-line="192" />
             </state>
           </provider>
         </entry>
@@ -81,6 +90,9 @@
     <findStrings>
       <find>computeAn</find>
       <find>computeAnalysisNation</find>
+      <find>showCiti</find>
+      <find>showCities</find>
+      <find>findHo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -94,7 +106,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+    <option name="x" value="-40" />
+    <option name="y" value="25" />
     <option name="width" value="1680" />
     <option name="height" value="963" />
   </component>
@@ -189,7 +202,7 @@
       <workItem from="1577804915413" duration="2626000" />
       <workItem from="1577864492189" duration="18929000" />
       <workItem from="1578067398860" duration="328000" />
-      <workItem from="1578127728982" duration="940000" />
+      <workItem from="1578127728982" duration="16377000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -261,29 +274,53 @@
       <option name="project" value="LOCAL" />
       <updated>1577901522015</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="eliminata registrazione">
+      <created>1578128893356</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1578128893356</updated>
+    </task>
+    <task id="LOCAL-00012" summary="eliminata registrazione">
+      <created>1578151859769</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1578151859769</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24524000" />
+    <option name="totallyTimeSpent" value="39961000" />
+  </component>
+  <component name="TodoView" selected-index="1">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="963" extended-state="0" />
+    <frame x="-40" y="25" width="1680" height="963" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.0875" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.08974359" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5952381" visible="true" weight="0.26345292" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5946276" visible="true" weight="0.19862227" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4785177" weight="0.398641" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Python Console" order="6" sideWeight="0.49785176" weight="0.40996602" />
-      <window_info anchor="bottom" id="TODO" order="7" weight="0.3295583" />
+      <window_info anchor="bottom" id="Python Console" order="6" sideWeight="0.4969475" weight="0.4098737" />
+      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.4993895" weight="0.3295063" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.5644468" weight="0.22989808" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.4047619" side_tool="true" visible="true" weight="0.26345292" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.4053724" side_tool="true" visible="true" weight="0.19862227" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -303,19 +340,10 @@
     <MESSAGE value="added login" />
     <MESSAGE value="removed pprint" />
     <MESSAGE value="remade" />
-    <option name="LAST_COMMIT_MESSAGE" value="remade" />
+    <MESSAGE value="eliminata registrazione" />
+    <option name="LAST_COMMIT_MESSAGE" value="eliminata registrazione" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="202" column="27" lean-forward="true" selection-start-line="194" selection-start-column="45" selection-end-line="202" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/PycharmProjects/grafo/venv/lib/python3.7/site-packages/pymongo/collection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="49500">
@@ -343,6 +371,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="495" selection-start-line="18" selection-start-column="495" selection-end-line="18" selection-end-column="495" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/PycharmProjects/grafo/venv/lib/python3.7/site-packages/pymongo/topology.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2201">
+          <caret line="192" selection-start-line="192" selection-end-line="192" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="130" column="38" lean-forward="true" selection-start-line="130" selection-start-column="38" selection-end-line="130" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

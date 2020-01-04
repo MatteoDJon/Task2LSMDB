@@ -1,4 +1,3 @@
-import os
 import pymongo
 import datetime
 import getpass
@@ -11,14 +10,32 @@ class Connect:
         self.dates = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9,
                       "oct": 10, "nov": 11, "dec": 12}
 
+    def findReviewer(self):
+        db = self.client["test_database"]
+        while (True):
+            name = input("Insert reviewer's ID or 'exit' to return to main menu: ")
+            if name != "exit":
+                doc_list = db.reviewer.find_one({"Name": name}, {"Reviews": 1, "_id": 0})  # find all data
+                if doc_list != None:
+                    rew_list = [int(item) for item in doc_list["Reviews"]]
+                    for rew in rew_list:
+                        coll = db.hotel.find_one({"Reviews._id": rew}, {"Reviews.Name": name})
+                        print(coll)
+                        return
+
+                else:
+                    print("Reviewer not found.\n")
+            else:
+                return
+
     def findHotel(self):
         db = self.client["test_database"]
         while (True):
             name = input("Insert hotel name or 'exit' to return to main menu: \n")
             if name == "exit":
                 return name
-            elif db.hotel.count_documents({"Name": str(name)}) > 0:
-                hotels = db.hotel.find({"Name": str(name)}, {"Name": 1, "Description": 1, "reviews": 1, "_id":0})
+            elif db.hotel.count_documents({"Name": name}) > 0:
+                hotels = db.hotel.find({"Name": name})
                 for doc in hotels:
                     print(doc)
                 return
@@ -92,19 +109,26 @@ class Connect:
                 self.computeAnalysisNation(self.nations[nation])
 
     def manageLogin(self):
-        if (self.logged == False):
+        db = self.client["test_database"]
+        username = input("Username: ")
+        pw = getpass.getpass()
+        res = db.user.count_documents({"Username": username, "Password": pw})
+        if res > 0:
+            option = ["logout", "delete nation", "delete city", "delete hotel", "delete reviewer",
+                      "delete review" "find user"]
             while (True):
-                print("Enter your credentials")
-                user = input("username:")
-                p = getpass.getpass()
-                if user == "admin" and p == "admin":
-                    self.logged = True
-
-                else:
-                    if input(
-                            "Login not valid, press any key to continue or type exit to return to main menu!\n") == "exit":
-                        print("\n")
-                        break
+                chosen = input("Select option or enter 'help' to see command list: \n")
+                if chosen == option[0]:  # logout
+                    break
+                if chosen == option[1]:  # delete nation
+                    nations=db.hotel.distinct("nation")
+                    for elem in nations:
+                        print(elem)
+                    choice = input("Select nation:")
+                    if choice in nations:
+                        print("TODO")
+                    else:
+                        print("Choice not valid.\n")
 
     def computeAnalysisNation(self, nation):
         print("Month per month:")
@@ -241,8 +265,7 @@ if __name__ == '__main__':
             mongodb.findHotel()
         if chosen == options[4]:  # "find reviewer"
             mongodb.getConnection()
-            print("TODO: show list of all reviewers in the system")
-
+            mongodb.findReviewer()
         if chosen == "help":
             print(options[0] + " - log in the application\n")
             print(options[1] + " - show available analytics about hotels in specific city or nation\n")
