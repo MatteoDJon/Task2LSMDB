@@ -8,29 +8,72 @@ class Connect:
 
     def __init__(self):
         self.client = None
-        self.cities = {"Firenze" :3456, "Bologna": 1, "Terni":2}
-        self.nations ={"Italia": 0,  "Iran":2000, "USA":1}
-        self.logged=False
         self.dates = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9,
                       "oct": 10, "nov": 11, "dec": 12}
-        self.logged_user=""
-        self.users = {}
 
+    def findHotel(self):
+        db = self.client["test_database"]
+        while (True):
+            name = input("Insert hotel name or 'exit' to return to main menu: \n")
+            if name == "exit":
+                return name
+            elif db.hotel.count_documents({"Name": str(name)}) > 0:
+                hotels = db.hotel.find({"Name": str(name)}, {"Name": 1, "Description": 1, "reviews": 1, "_id":0})
+                for doc in hotels:
+                    print(doc)
+                return
+            print("The selected hotel is not present in the database.\n")
+
+    def adequate(self):
+        db = self.client["test_database"]
+        plt = input("Select nation or city:\n")
+        if plt == "city":
+            chosen_city = self.showCities(db)
+            if chosen_city != "exit":
+                result = db.hotel.aggregate(
+                    {"$match": {"city": chosen_city}},
+                    {"  $group": {"_id": "$id", "name": "$Name"}})
+                for hotel in result:
+                    print(hotel["Name"] + "\n")
+                    for rew in hotel["reviews"]:
+                        print(rew)
+        elif plt == "nation":
+            choice = self.showNation(db)
+            if choice != "exit":
+                chosen_city = self.showCities(db)
+                if chosen_city != "exit":
+                    result = db.hotel.aggregate(
+                        {"$match": {"city": chosen_city}},
+                        {"  $group": {"_id": "$id", "name": "$Name"}})
+                    for hotel in result:
+                        print(hotel["Name"] + "\n")
+                        for rew in hotel["reviews"]:
+                            print(rew)
+
+    def showNation(self, db):
+        coll = db.nation.distinct("Name")
+        while (True):
+            for item in coll:
+                print(item)
+            chosen = input("Select nation or enter 'exit' to return to main menu: \n")
+            if chosen in coll or chosen == "exit":
+                return chosen
+
+    def showCities(self, db):
+        coll = db.city.distinct("Name")
+        while (True):
+            for item in coll:
+                print(item)
+            chosen = input("Select city or enter 'exit' to return to main menu: \n")
+            if chosen in coll or chosen == "exit":
+                return chosen
 
     def getConnection(self):
-        if self.client==None:
-            self.client= pymongo.MongoClient('mongodb://localhost:27017/')
+        if self.client == None:
+            self.client = pymongo.MongoClient('mongodb://localhost:27017/')
 
-        return self.client
-    def isLogged(self):
-        if self.logged and self.logged_user=="admin":
-            return True, True
-        elif self.logged and self.logged_user!="user":
-            return True, False
-        else:
-            return False, False
     def close(self):
-        if self.client!="":
+        if self.client != "":
             self.client.close()
 
     def manageAnalytics(self):
@@ -49,13 +92,13 @@ class Connect:
                 self.computeAnalysisNation(self.nations[nation])
 
     def manageLogin(self):
-        if(self.logged==False):
+        if (self.logged == False):
             while (True):
                 print("Enter your credentials")
                 user = input("username:")
                 p = getpass.getpass()
-                if user=="admin" and p=="admin":
-                    self.logged=True
+                if user == "admin" and p == "admin":
+                    self.logged = True
 
                 else:
                     if input(
@@ -63,37 +106,37 @@ class Connect:
                         print("\n")
                         break
 
-    def computeAnalysisNation(self,  nation):
+    def computeAnalysisNation(self, nation):
         print("Month per month:")
         pipeline = [
-        {
-            "$match": {"year":2019, "nationID": nation}
-         },
-        {
-            "$group":
-                {"_id": "$month",
-                 "average": {"$avg": "$Vote"}}}
+            {
+                "$match": {"year": 2019, "nationID": nation}
+            },
+            {
+                "$group":
+                    {"_id": "$month",
+                     "average": {"$avg": "$Vote"}}}
         ]
-        result=self.client.hotel.aggregate(pipeline)
+        result = self.client.hotel.aggregate(pipeline)
         print(result)
-        pipeline1=[
-        {
-            "$match": {"nationID": nation}
-         },
-        {
-            "$group":
-                {"_id": "$month",
-                 "averageRatings": {"$avgrat": "$averageRating","$serRat": "$serviceRating" ,"$clrat": "cleanlinessRating","$posRat": "$positionRating"  }
-                 }
+        pipeline1 = [
+            {
+                "$match": {"nationID": nation}
+            },
+            {
+                "$group":
+                    {"_id": "$month",
+                     "averageRatings": {"$avgrat": "$averageRating", "$serRat": "$serviceRating",
+                                        "$clrat": "cleanlinessRating", "$posRat": "$positionRating"}
+                     }
 
-        },
-        {
-        "$sort": {"averageRatings": -1}
-        }
+            },
+            {
+                "$sort": {"averageRatings": -1}
+            }
         ]
         result1 = self.client.hotel.aggregate(pipeline1)
         print(result1)
-
 
     def computeAnalysisCity(self, place):
         now = datetime.datetime.now()  # current date and time
@@ -104,7 +147,7 @@ class Connect:
         db = self.client.test_database
         hotel_list = db.hotels.find({"cityID": place})
         averall_avgs = {}
-        hotel_names=[]
+        hotel_names = []
         for hotel in hotel_list:
             averages = []
 
@@ -121,14 +164,15 @@ class Connect:
                         for it in averages[i]:
                             temp += it
                         averages[i] = temp / count
-                    averall_avgs[hotel["Name"]] = [ averages]
+                    averall_avgs[hotel["Name"]] = [averages]
         print("average rating vote from the reviews month by month of the current year:\n")
         for i in averall_avgs:
-            print("The averages for current year for hotel "+i.key()+" are:\n")
+            print("The averages for current year for hotel " + i.key() + " are:\n")
             print(i)
+
     def scoreboard(self, place, type):
         place = "$" + place
-        db=self.client.test_database
+        db = self.client.test_database
 
     # print(i, averall_avgs[i])  # stampa _id, avg
 
@@ -178,7 +222,7 @@ if __name__ == '__main__':
     for item in options:
         print(item + "\n")
     print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
-    mongodb=Connect()
+    mongodb = Connect()
     while (True):
         chosen = input("Choice:")
         # pid = os.fork()
@@ -188,31 +232,25 @@ if __name__ == '__main__':
             mongodb.manageLogin()
         if chosen == options[1]:  # analitycs
             mongodb.getConnection()
-            mongodb.manageAnalytics()
+        # mongodb.manageAnalytics()
         if chosen == options[2]:  # statistics
             mongodb.getConnection()
-            mongodb.manageStatistics()
-        if chosen== options[3]: #"find hotel"
+            # mongodb.manageStatistics()
+        if chosen == options[3]:  # "find hotel"
             mongodb.getConnection()
-            print("TODO: show hotel list")
-        if chosen==options[4]: #"find reviewer"
+            mongodb.findHotel()
+        if chosen == options[4]:  # "find reviewer"
             mongodb.getConnection()
             print("TODO: show list of all reviewers in the system")
 
-
-        if chosen== "help":
-            print(options[0]+ " - log in the application\n")
-            print(options[1] +" - show available analytics about hotels in specific city or nation\n")
-            print(options[2]+ " - show available statistics about hotels in a specific city or nation\n")
+        if chosen == "help":
+            print(options[0] + " - log in the application\n")
+            print(options[1] + " - show available analytics about hotels in specific city or nation\n")
+            print(options[2] + " - show available statistics about hotels in a specific city or nation\n")
             print(options[3] + " - find hotel in the system\n")
             print(options[4] + " - find all the reviews by a specific reviewer\n")
-        if chosen=="exit":
+        if chosen == "exit":
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
 
     mongodb.close()
-
-
-
-
-
