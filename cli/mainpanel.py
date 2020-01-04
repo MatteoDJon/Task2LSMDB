@@ -25,7 +25,7 @@ class Connect:
     def isLogged(self):
         if self.logged and self.logged_user=="admin":
             return True, True
-        elif self.logged and self.logged_user!="admin":
+        elif self.logged and self.logged_user!="user":
             return True, False
         else:
             return False, False
@@ -54,12 +54,8 @@ class Connect:
                 print("Enter your credentials")
                 user = input("username:")
                 p = getpass.getpass()
-                for elem in self.users:
-                    print(elem)
-                if user in self.users.keys():
-                    self.logged = True
-                    print("Welcome " + user)
-                    break
+                if user=="admin" and p=="admin":
+                    self.logged=True
 
                 else:
                     if input(
@@ -67,9 +63,6 @@ class Connect:
                         print("\n")
                         break
 
-    def manageRegister(self):
-
-        print("TODO")
     def computeAnalysisNation(self,  nation):
         print("Month per month:")
         pipeline = [
@@ -179,7 +172,7 @@ class Connect:
 
 if __name__ == '__main__':
 
-    options = ["login", "register", "read analytics", "read statistics"]
+    options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
 
     print("Options:\n")
     for item in options:
@@ -190,28 +183,29 @@ if __name__ == '__main__':
         chosen = input("Choice:")
         # pid = os.fork()
         # if pid == 0:  # child process
-        if chosen == "login":  # login
+        if chosen == options[0]:  # login
             mongodb.getConnection()
             mongodb.manageLogin()
-            res=mongodb.isLogged()
-            if res[0] and res[1]=="admin":
-                print("option - admin")
-            elif res[0] and res[1]!="admin":
-                print("option - user")
-        if chosen == "register":  # register
-            mongodb.getConnection()
-            mongodb.manageRegister()
-        if chosen == "read analytics":  # analitycs
+        if chosen == options[1]:  # analitycs
             mongodb.getConnection()
             mongodb.manageAnalytics()
-        if chosen == "read statistics":  # statistics
+        if chosen == options[2]:  # statistics
             mongodb.getConnection()
             mongodb.manageStatistics()
+        if chosen== options[3]: #"find hotel"
+            mongodb.getConnection()
+            print("TODO: show hotel list")
+        if chosen==options[4]: #"find reviewer"
+            mongodb.getConnection()
+            print("TODO: show list of all reviewers in the system")
+
+
         if chosen== "help":
             print(options[0]+ " - log in the application\n")
-            print(options[1]+ " - sign up in the application\n")
-            print(options[2]+ " - show available analytics about hotels in specific city or nation\n")
-            print(options[3]+ " - show available statistics about hotels in a specific city or nation\n")
+            print(options[1] +" - show available analytics about hotels in specific city or nation\n")
+            print(options[2]+ " - show available statistics about hotels in a specific city or nation\n")
+            print(options[3] + " - find hotel in the system\n")
+            print(options[4] + " - find all the reviews by a specific reviewer\n")
         if chosen=="exit":
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
