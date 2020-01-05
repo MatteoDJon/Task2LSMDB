@@ -1,6 +1,7 @@
 import pymongo
 import datetime
 import getpass
+from pprint import pprint
 
 
 class Connect:
@@ -37,7 +38,17 @@ class Connect:
             elif db.hotel.count_documents({"Name": name}) > 0:
                 hotels = db.hotel.find({"Name": name})
                 for doc in hotels:
-                    print(doc)
+                    print("Nome: " + doc["Name"])
+                    print("Descrizione: " + doc["Description"])
+                    print("ServiceRating: " + str(doc["ServiceRating"]))
+                    print("PositionRating: " + str(doc["PositionRating"]))
+                    print("AverageRating: " + str(doc["AverageRating"]))
+                    print("CleanlinessRating: " + str(doc["CleanlinessRating"]))
+                    print("City: " + doc["City"])
+                    print("Nation: " + doc["Nation"])
+                    print("Number of reviews: " + doc["NumberReview"])
+                    for rew in doc["Reviews"]:
+                        pprint(rew)
                 return
             print("The selected hotel is not present in the database.\n")
 
@@ -95,18 +106,35 @@ class Connect:
 
     def manageAnalytics(self):
         plt = input("Select city or nation:\n")
-        if plt == "city":
-            for item in self.cities:
-                print(item)
-            city = input("Select city:\n")
-            if city in self.cities.keys():
-                self.computeAnalysisCity(self.cities[city])
-        elif plt == "nation":
-            for item in self.nations:
-                print(item)
-            nation = input("Select nation:\n")
-            if nation in self.nations.keys():
-                self.computeAnalysisNation(self.nations[nation])
+
+    def deleteNation(self, db):
+        while (True):
+            nations = db.hotel.distinct("Nation")
+            for elem in nations:
+                print(elem)
+            choice = input("Select nation to be deleted or enter 'exit' to return to administrator menu: ")
+            if choice in nations:
+                nat_to_delete = db.nation.find_one(choice)  # cursor of nation to be deleted
+                cit_to_delete = []
+                for city in nat_to_delete["Cities"]:
+                    cit_to_delete.append(city["cityName"])
+                    hotel_to_delete = db.hotel.find({"_id": city}, {"Reviews": 1, "_id": 0})
+                    rew_num = []
+                    for hot in hotel_to_delete:
+                        for r in hot["Reviews"]:
+                            rew_num.append(r["_id"])
+                    if rew_num != []:
+                        db.hotel.update({}, {"$pull": {"Reviews._id": {"$in": rew_num}}}, {"multi": "true"})
+                        db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_num}}}, {"multi": "true"})
+                db.hotel.remove({"Nation": choice})
+                db.nation.remove({"Name": choice})
+            elif choice == "exit":
+                break
+            else:
+                print("Choice not valid.\n")
+
+    def deleteCity(self, db):
+        print("TODO")
 
     def manageLogin(self):
         db = self.client["test_database"]
@@ -121,14 +149,7 @@ class Connect:
                 if chosen == option[0]:  # logout
                     break
                 if chosen == option[1]:  # delete nation
-                    nations=db.hotel.distinct("nation")
-                    for elem in nations:
-                        print(elem)
-                    choice = input("Select nation:")
-                    if choice in nations:
-                        print("TODO")
-                    else:
-                        print("Choice not valid.\n")
+                    self.deleteNation(db)
 
     def computeAnalysisNation(self, nation):
         print("Month per month:")
@@ -174,7 +195,6 @@ class Connect:
         hotel_names = []
         for hotel in hotel_list:
             averages = []
-
             for i in range(self.dates[month]):
                 averages.append([])
             for id in hotel["reviewList"]:
