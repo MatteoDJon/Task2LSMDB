@@ -118,13 +118,13 @@ class Connect:
                 cit_to_delete = []
                 for city in nat_to_delete["Cities"]:
                     cit_to_delete.append(city["cityName"])
-                    hotel_to_delete = db.hotel.find({"_id": city}, {"Reviews": 1, "_id": 0})
+                    hotel_to_delete = db.hotel.find({"City": city}, {"Reviews": 1, "_id": 0})
                     rew_num = []
                     for hot in hotel_to_delete:
                         for r in hot["Reviews"]:
                             rew_num.append(r["_id"])
                     if rew_num != []:
-                        db.hotel.update({}, {"$pull": {"Reviews._id": {"$in": rew_num}}}, {"multi": "true"})
+                       # db.hotel.update({}, {"$pull": {"Reviews._id": {"$in": rew_num}}}, {"multi": "true"})
                         db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_num}}}, {"multi": "true"})
                 db.hotel.remove({"Nation": choice})
                 db.nation.remove({"Name": choice})
@@ -134,7 +134,26 @@ class Connect:
                 print("Choice not valid.\n")
 
     def deleteCity(self, db):
-        print("TODO")
+        while(True):
+            cities_in_system = db.nation.distinct("Cities.cityName")
+            for city in cities_in_system:
+                print(city)
+            choice=input("Select city or enter 'exit' to return to admin main menu: ")
+            if choice in cities_in_system:
+                hotels_to_delete=db.hotel.find({"City": choice})
+                rew_to_delete=[]
+                hot_num=[]#id list hotels to be deleted
+                for hot in hotels_to_delete:
+                    hot_num.append(hot["_id"])
+                    for r in hot["Reviews"]:
+                        rew_to_delete.append(r["_id"])
+                db.nation.update({}, {"$pull": {"Cities.cityName": {"$in": cities_in_system}}}, {"multi": "true"})
+                db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_to_delete}}}, {"multi": "true"})
+            elif choice=="exit":
+                return
+            else:
+                print("Choice not valid. \n")
+
 
     def manageLogin(self):
         db = self.client["test_database"]
