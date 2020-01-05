@@ -124,7 +124,7 @@ class Connect:
                         for r in hot["Reviews"]:
                             rew_num.append(r["_id"])
                     if rew_num != []:
-                       # db.hotel.update({}, {"$pull": {"Reviews._id": {"$in": rew_num}}}, {"multi": "true"})
+                        # db.hotel.update({}, {"$pull": {"Reviews._id": {"$in": rew_num}}}, {"multi": "true"})
                         db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_num}}}, {"multi": "true"})
                 db.hotel.remove({"Nation": choice})
                 db.nation.remove({"Name": choice})
@@ -134,25 +134,76 @@ class Connect:
                 print("Choice not valid.\n")
 
     def deleteCity(self, db):
-        while(True):
+        while (True):
             cities_in_system = db.nation.distinct("Cities.cityName")
             for city in cities_in_system:
                 print(city)
-            choice=input("Select city or enter 'exit' to return to admin main menu: ")
+            choice = input("Select city or enter 'exit' to return to admin main menu: ")
             if choice in cities_in_system:
-                hotels_to_delete=db.hotel.find({"City": choice})
-                rew_to_delete=[]
-                hot_num=[]#id list hotels to be deleted
+                hotels_to_delete = db.hotel.find({"City": choice})
+                rew_to_delete = []
+                hot_num = []  # id list hotels to be deleted
                 for hot in hotels_to_delete:
                     hot_num.append(hot["_id"])
                     for r in hot["Reviews"]:
                         rew_to_delete.append(r["_id"])
                 db.nation.update({}, {"$pull": {"Cities.cityName": {"$in": cities_in_system}}}, {"multi": "true"})
                 db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_to_delete}}}, {"multi": "true"})
-            elif choice=="exit":
+                break
+            elif choice == "exit":
                 return
             else:
                 print("Choice not valid. \n")
+
+    def deleteHotel(self):
+        db = self.client["test_database"]
+        hotel_list_names = db.hotel.distinct("Name")
+        while (True):
+            choice = input(
+                "Insert hotel name, 'list' to see the list of available hotels or 'exit' to return to admin main menu: ")
+            if choice in hotel_list_names:
+                rec_list=db.hotel.find({"Name":choice})
+                rec_num=[]
+                for rec in rec_list:
+                    rec_num.append(rec["_id"])
+                if rec_num!=[]: #an hotel may have no reviews?
+                    db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rec_num}}}, {"multi": "true"})
+                db.nation.update({}, {"$pull": {"Cities.cityName": choice}}, {"multi": "true"})
+                db.hotel.remove_one({"_id":rec_list["_id"]})
+                break
+            elif choice == "list":
+                for hotel in hotel_list_names:
+                    print(hotel)
+            elif choice=="exit":
+                break
+            else:
+                print("Choice not valid")
+
+    def deleteReviewer(self):
+        db = self.client["test_database"]
+        reviewers_list_names = db.reviewer.distinct("Name")
+        while (True):
+            choice = input(
+                "Insert reviewer name, 'list' to see the list of available reviewers or 'exit' to return to admin main menu: ")
+            if choice in reviewers_list_names:
+                db.hotel.update({}, {"$pull": {"Reviews.Reviewer":choice}}, {"multi": "true"})#elimina id
+                db.reviewer.remove({"Name":choice})
+                break
+            elif choice == "list":
+                for name in reviewers_list_names:
+                    print(name)
+            elif choice == "exit":
+                break
+            else:
+                print("Choice not valid")
+
+    def deleteReview(self):
+        db = self.client["test_database"]
+        reviewers_list_names = db.reviewer.distinct("Name")
+        while(True):
+            choice=input("Insert reviewer ID:")
+            if choice in reviewers_list_names:
+                db.reviewer.update({"Name":choice}, {"$pull": {"Reviews.Reviewer":choice}})
 
 
     def manageLogin(self):
@@ -169,7 +220,14 @@ class Connect:
                     break
                 if chosen == option[1]:  # delete nation
                     self.deleteNation(db)
-
+                if chosen == option[2]:  # delete city
+                    self.deleteCity(db)
+                if chosen == option[3]: #delete hotel
+                    self.deleteHotel()
+                if chosen == option[4]:#delete reviewer
+                    self.deleteReviewer()
+                if chosen == option[5]: #delete review
+                    print("TODO")
     def computeAnalysisNation(self, nation):
         print("Month per month:")
         pipeline = [

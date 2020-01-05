@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="196" column="25" selection-start-line="196" selection-start-column="25" selection-end-line="196" selection-end-column="25" />
+            <state relative-caret-position="428">
+              <caret line="204" column="97" selection-start-line="204" selection-start-column="97" selection-end-line="204" selection-end-column="97" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -57,8 +57,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="95" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="80" />
     <option name="y" value="25" />
     <option name="width" value="1680" />
     <option name="height" value="963" />
@@ -155,7 +155,7 @@
       <workItem from="1577864492189" duration="18929000" />
       <workItem from="1578067398860" duration="328000" />
       <workItem from="1578127728982" duration="17000000" />
-      <workItem from="1578214014615" duration="5338000" />
+      <workItem from="1578214014615" duration="13763000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -248,11 +248,25 @@
       <option name="project" value="LOCAL" />
       <updated>1578158577792</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="aggiunta delete Nation menu admin">
+      <created>1578222019007</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1578222019007</updated>
+    </task>
+    <task id="LOCAL-00015" summary="aggiunta delete City">
+      <created>1578232155661</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1578232155661</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45922000" />
+    <option name="totallyTimeSpent" value="54347000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -267,12 +281,12 @@
     <frame x="80" y="25" width="1680" height="963" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09035409" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09035409" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5909646" visible="true" weight="0.19862227" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5909646" visible="true" weight="0.19862227" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4785177" weight="0.398641" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -301,7 +315,9 @@
     <MESSAGE value="removed pprint" />
     <MESSAGE value="remade" />
     <MESSAGE value="eliminata registrazione" />
-    <option name="LAST_COMMIT_MESSAGE" value="eliminata registrazione" />
+    <MESSAGE value="aggiunta delete Nation menu admin" />
+    <MESSAGE value="aggiunta delete City" />
+    <option name="LAST_COMMIT_MESSAGE" value="aggiunta delete City" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/PycharmProjects/grafo/venv/lib/python3.7/site-packages/pymongo/topology.py">
@@ -343,8 +359,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="196" column="25" selection-start-line="196" selection-start-column="25" selection-end-line="196" selection-end-column="25" />
+        <state relative-caret-position="428">
+          <caret line="204" column="97" selection-start-line="204" selection-start-column="97" selection-end-line="204" selection-end-column="97" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
