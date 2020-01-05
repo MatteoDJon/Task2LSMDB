@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="204" column="97" selection-start-line="204" selection-start-column="97" selection-end-line="204" selection-end-column="97" />
+            <state relative-caret-position="311">
+              <caret line="210" column="27" selection-start-line="210" selection-start-column="27" selection-end-line="210" selection-end-column="27" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -43,8 +43,14 @@
       <find>computeAnalysisNation</find>
       <find>showCiti</find>
       <find>showCities</find>
-      <find>findHo</find>
       <find>pprint</find>
+      <find>findHo</find>
+      <find>Statis</find>
+      <find>manageLogin</find>
+      <find>deleteHotel</find>
+      <find>deleteReviewer</find>
+      <find>deleteReview</find>
+      <find>findUser</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -57,9 +63,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="80" />
-    <option name="y" value="25" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="49" />
+    <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="963" />
   </component>
@@ -68,6 +74,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -89,7 +96,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -155,7 +161,8 @@
       <workItem from="1577864492189" duration="18929000" />
       <workItem from="1578067398860" duration="328000" />
       <workItem from="1578127728982" duration="17000000" />
-      <workItem from="1578214014615" duration="13763000" />
+      <workItem from="1578214014615" duration="19548000" />
+      <workItem from="1578267106790" duration="834000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -262,11 +269,18 @@
       <option name="project" value="LOCAL" />
       <updated>1578232155661</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="aggiunta delete City">
+      <created>1578257991139</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1578257991139</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54347000" />
+    <option name="totallyTimeSpent" value="60966000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -278,15 +292,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="80" y="25" width="1680" height="963" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="963" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09035409" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09096459" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5909646" visible="true" weight="0.19862227" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5909646" weight="0.19862227" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4785177" weight="0.398641" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -359,8 +373,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="204" column="97" selection-start-line="204" selection-start-column="97" selection-end-line="204" selection-end-column="97" />
+        <state relative-caret-position="311">
+          <caret line="210" column="27" selection-start-line="210" selection-start-column="27" selection-end-line="210" selection-end-column="27" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

@@ -155,39 +155,37 @@ class Connect:
             else:
                 print("Choice not valid. \n")
 
-    def deleteHotel(self):
-        db = self.client["test_database"]
+    def deleteHotel(self, db):
         hotel_list_names = db.hotel.distinct("Name")
         while (True):
             choice = input(
                 "Insert hotel name, 'list' to see the list of available hotels or 'exit' to return to admin main menu: ")
             if choice in hotel_list_names:
-                rec_list=db.hotel.find({"Name":choice})
-                rec_num=[]
+                rec_list = db.hotel.find({"Name": choice})
+                rec_num = []
                 for rec in rec_list:
                     rec_num.append(rec["_id"])
-                if rec_num!=[]: #an hotel may have no reviews?
+                if rec_num != []:  # an hotel may have no reviews?
                     db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rec_num}}}, {"multi": "true"})
                 db.nation.update({}, {"$pull": {"Cities.cityName": choice}}, {"multi": "true"})
-                db.hotel.remove_one({"_id":rec_list["_id"]})
+                db.hotel.remove_one({"_id": rec_list["_id"]})
                 break
             elif choice == "list":
                 for hotel in hotel_list_names:
                     print(hotel)
-            elif choice=="exit":
+            elif choice == "exit":
                 break
             else:
                 print("Choice not valid")
 
-    def deleteReviewer(self):
-        db = self.client["test_database"]
+    def deleteReviewer(self, db):
         reviewers_list_names = db.reviewer.distinct("Name")
         while (True):
             choice = input(
                 "Insert reviewer name, 'list' to see the list of available reviewers or 'exit' to return to admin main menu: ")
             if choice in reviewers_list_names:
-                db.hotel.update({}, {"$pull": {"Reviews.Reviewer":choice}}, {"multi": "true"})#elimina id
-                db.reviewer.remove({"Name":choice})
+                db.hotel.update({}, {"$pull": {"Reviews.Reviewer": choice}}, {"multi": "true"})  # elimina id
+                db.reviewer.remove({"Name": choice})
                 break
             elif choice == "list":
                 for name in reviewers_list_names:
@@ -197,15 +195,22 @@ class Connect:
             else:
                 print("Choice not valid")
 
-    def deleteReview(self):
-        db = self.client["test_database"]
+    def deleteReview(self, db):
         reviewers_list_names = db.reviewer.distinct("Name")
-        while(True):
-            choice=input("Insert reviewer ID:")
+        while (True):
+            choice = input("Insert reviewer ID:")
             if choice in reviewers_list_names:
-                db.reviewer.update({"Name":choice}, {"$pull": {"Reviews.Reviewer":choice}})
-
-
+                db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
+    def findUser(self, db):
+        while(True):
+            option=["view scraper info", "view admin info", "update admin info", "update scraper info"]
+            for opt in option:
+                print(opt+"\n")
+            choice=input("Select operation or enter 'exit' to return to admin menu: ")
+            if choice in option:
+                print("TODO")
+            else:
+                break
     def manageLogin(self):
         db = self.client["test_database"]
         username = input("Username: ")
@@ -222,12 +227,14 @@ class Connect:
                     self.deleteNation(db)
                 if chosen == option[2]:  # delete city
                     self.deleteCity(db)
-                if chosen == option[3]: #delete hotel
-                    self.deleteHotel()
-                if chosen == option[4]:#delete reviewer
-                    self.deleteReviewer()
-                if chosen == option[5]: #delete review
-                    print("TODO")
+                if chosen == option[3]:  # delete hotel
+                    self.deleteHotel(db)
+                if chosen == option[4]:  # delete reviewer
+                    self.deleteReviewer(db)
+                if chosen == option[5]:  # delete review
+                    self.deleteReview(db)
+                if chosen == option[6]:  # find user
+                    self.findUser(db)
     def computeAnalysisNation(self, nation):
         print("Month per month:")
         pipeline = [
@@ -298,41 +305,82 @@ class Connect:
     # print(i, averall_avgs[i])  # stampa _id, avg
 
     def manageStatistics(self):
-        opt = ["averageRating", "serviceRating", "cleanlinessRating", "positionRating"]
-        for item in opt:
-            print(item + "\n")
-        chosen = input("Select evaluation attribute:\n")
-        if chosen in opt:
-            plt = input("Select city or nation:\n")
-            if plt == "city":
-                for item in self.cities:
-                    print(item)
-                city = input("Select city:\n")
-                if city in self.cities.keys():
-                    self.computeAvg(chosen, self.cities[city], "cityID")
-                else:
-                    print("The option is not valid.\n")
-                    return
-            elif plt == "nation":
-                for item in self.nations:
-                    print(item)
-                nation = input("Select nation:\n")
-                if nation in self.nations.keys():
-                    self.computeAvg(chosen, self.nations[nation], "nationID")
-                else:
-                    print("The option is not valid.\n")
-                    return
+        db = self.client["test_database"]
+        option = ["AverageRating", "ServiceRating", "CleanlinessRating", "PositionRating"]
+        type = input("Select city or nation")
+        place = ""
+        while (True):
+            if type == "City":
+                list_available_cities = db.nation.distinct("Cities.cityName")
+                for city in list_available_cities:
+                    print(city + "\n")
+                place = input("Select city or enter 'exit' to return to main menu: ")
+                while (True):
+                    if place == "exit":
+                        type = "exit"
+                        break
+                    elif place in list_available_cities:
+                        while (True):
+                            for elem in option:
+                                print(elem + "\n")
+                            chosen = input("Select evaluation parameter or enter 'exit' to return to main menu: ")
+                            if chosen in option:
+                                result = self.computeAvg(chosen, place, type)
+                                print("Positive: " + str(result[0]))
+                                print("Neutral: " + str(result[2]))
+                                print("Negative: " + str(result[1]))
+                            elif chosen == "exit":
+                                place = "exit"
+                                break
+                            else:
+                                print("Choice not valid. \n")
+                                print("Select city or enter 'exit' to return to main menu:")
+                    else:
+                        print("Choice not valid. \n")
+                        for city in list_available_cities:
+                            print(city + "\n")
+                        place = input("Select city or enter 'exit' to return to main menu: ")
+            elif type == "Nation":
+                list_available_nations = db.nation.distinct("Name")
+                for nat in list_available_nations:
+                    print(nat + "\n")
+                place = input("Select nation or enter 'exit' to return to main menu: ")
+                while (True):
+                    if place == "exit":
+                        type = "exit"
+                        break
+                    elif place in list_available_nations:
+                        while (True):
+                            for elem in option:
+                                print(elem + "\n")
+                            chosen = input("Select evaluation parameter or enter 'exit' to return to main menu: ")
+                            if chosen in option:
+                                result = self.computeAvg(chosen, place, type)
+                                print("Positive: " + str(result[0]))
+                                print("Neutral: " + str(result[2]))
+                                print("Negative: " + str(result[1]))
+                            elif chosen == "exit":
+                                place = "exit"
+                                break
+                            else:
+                                print("Choice not valid. \n")
+                                print("Select city or enter 'exit' to return to main menu:")
+                    else:
+                        print("Choice not valid. \n")
+                        for nat in list_available_nations:
+                            print(nat + "\n")
+                        place = input("Select nation or enter 'exit' to return to main menu: ")
+            elif type == "exit":
+                break
             else:
-                print("The option is not valid.\n")
-                return
+                print("Choice not valid.\n")
 
     def computeAvg(self, chosen, place, type):
-        db = self.client.test_database
+        db = self.client["test_database"]
         numPos = db.hotel.count_documents({"$and": [{chosen: {"$gt": 6}}, {type: place}]})
         numNeg = db.hotel.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
         numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
-        print(numPos, numNeg, numMed)
-        # plot?
+        return [numPos, numNeg, numMed]
 
 
 if __name__ == '__main__':
