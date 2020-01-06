@@ -215,23 +215,20 @@ class Connect:
 
     def findUser(self, db):
         while (True):
-            option = ["view scraper info", "view admin info", "update admin info", "update scraper info"]
-            for opt in option:
-                print(opt + "\n")
-            choice = input("Select operation or enter 'exit' to return to admin menu: ")
-            if choice in option:
-                if choice == option[0]:
-                    pprint(db.user.find({"Username": "admin"}))
-                if choice == option[1]:
-                    pprint(db.user.find({"Username": "scraper"}))
-                if choice == option[2]:
-                    self.updatePassword(db, "admin")
-                if choice == option[3]:
-                    self.updatePassword(db, "spider")
-            elif choice == "exit":
-                break
-            else:
-                print("Choice not valid.\n")
+            option = ["admin", "spider"]
+            user=input("Select user or enter 'exit' to return to main menu: ")
+            print(option[0])
+            print(option[1])
+            while(True):
+                if user=="admin" or user=="scraper":
+                    operations=["view", "update"]
+                    print(operations[0])
+                    print(operations[1])
+                elif user=="exit":
+                    break
+                else:
+                    print("Choice not valid.\n")
+
 
     def manageLogin(self):
         db = self.client["test_database"]
@@ -258,16 +255,13 @@ class Connect:
                 if chosen == option[6]:  # find user
                     self.findUser(db)
                 if chosen == options[1]:  # analitycs
-                    mongodb.getConnection()
-                # mongodb.manageAnalytics()
+                    self.manageAnalytics()
                 if chosen == options[2]:  # statistics
-                    mongodb.getConnection()
-                    # mongodb.manageStatistics()
+                    mongodb.manageStatistics()
                 if chosen == options[3]:  # "find hotel"
-                    mongodb.getConnection()
-                    mongodb.findHotel()
+                    self.findHotel()
                 if chosen == options[4]:  # "find reviewer"
-                    mongodb.getConnection()
+                    self.getConnection()
                     mongodb.findReviewer()
                 if chosen == "help":
                     print(options[0] + " - log in the application\n")
