@@ -314,16 +314,13 @@ class Connect:
                     break
 
     def computeAnalysis(self, type, place):
-        print("TODO")
-
-    def computeAnalysisNation(self, nation):
         db = self.client["test_database"]
         now = datetime.datetime.now()
         year = now.strftime("%Y")
         print("Month per month:")
         pipeline = [
             {
-                "$match": {"Year": year, "Nation": nation}
+                "$match": {"Year": year, type: place}
             },
             {
                 "$group":
@@ -334,7 +331,7 @@ class Connect:
         print(result)
         pipeline1 = [
             {
-                "$match": {"Nation": nation}
+                "$match": {type: place}
             },
             {
                 "$group":
@@ -350,37 +347,6 @@ class Connect:
         ]
         result1 = self.client.hotel.aggregate(pipeline1)
         print(result1)
-
-    def computeAnalysisCity(self, place):
-        now = datetime.datetime.now()  # current date and time
-        day = now.strftime("%d")
-        month = now.strftime("%m")
-        year = now.strftime("%Y")
-
-        db = self.client.test_database
-        hotel_list = db.hotels.find({"cityID": place})
-        averall_avgs = {}
-        hotel_names = []
-        for hotel in hotel_list:
-            averages = []
-            for i in range(self.dates[month]):
-                averages.append([])
-            for id in hotel["reviewList"]:
-                rew = db.findOne({"_id": id})
-                # result = self.isAntecedent(rew["Day"], rew["Month"], rew[ "Year"])
-                if len(rew) != 0 and rew["Year"] == int(year) and rew["Day"] >= int(day):
-                    averages[self.dates[month] - 1].append(rew["Vote"])
-                    for i in range(len(averages)):
-                        temp = 0
-                        count = len(averages[i])
-                        for it in averages[i]:
-                            temp += it
-                        averages[i] = temp / count
-                    averall_avgs[hotel["Name"]] = [averages]
-        print("average rating vote from the reviews month by month of the current year:\n")
-        for i in averall_avgs:
-            print("The averages for current year for hotel " + i.key() + " are:\n")
-            print(i)
 
     def manageStatistics(self):
         db = self.client["test_database"]
