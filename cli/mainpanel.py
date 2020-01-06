@@ -286,17 +286,20 @@ class Connect:
                     break
 
     def computeAnalysisNation(self, nation):
+        db=self.client["test_database"]
+        now = datetime.datetime.now()
+        year = now.strftime("%Y")
         print("Month per month:")
         pipeline = [
             {
-                "$match": {"year": 2019, "nationID": nation}
+                "$match": {"Year": year, "Nation": nation}
             },
             {
                 "$group":
-                    {"_id": "$month",
+                    {"_id": "$Month",
                      "average": {"$avg": "$Vote"}}}
         ]
-        result = self.client.hotel.aggregate(pipeline)
+        result = db.review.hotel.aggregate(pipeline)
         print(result)
         pipeline1 = [
             {
@@ -305,8 +308,8 @@ class Connect:
             {
                 "$group":
                     {"_id": "$month",
-                     "averageRatings": {"$avgrat": "$averageRating", "$serRat": "$serviceRating",
-                                        "$clrat": "cleanlinessRating", "$posRat": "$positionRating"}
+                     "averageRatings": {"$avgrat": "$AverageRating", "$serRat": "$ServiceRating",
+                                        "$clrat": "CleanlinessRating", "$posRat": "$PositionRating"}
                      }
 
             },
@@ -348,11 +351,6 @@ class Connect:
             print("The averages for current year for hotel " + i.key() + " are:\n")
             print(i)
 
-    def scoreboard(self, place, type):
-        place = "$" + place
-        db = self.client.test_database
-
-    # print(i, averall_avgs[i])  # stampa _id, avg
 
     def manageStatistics(self):
         db = self.client["test_database"]
