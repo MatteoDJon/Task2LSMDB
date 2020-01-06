@@ -8,8 +8,6 @@ class Connect:
 
     def __init__(self):
         self.client = None
-        self.dates = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9,
-                      "oct": 10, "nov": 11, "dec": 12}
 
     def findReviewer(self):
         db = self.client["test_database"]
@@ -484,7 +482,7 @@ if __name__ == '__main__':
             mongodb.manageAnalytics()
         if chosen == options[2]:  # statistics
             mongodb.getConnection()
-            # mongodb.manageStatistics()
+            mongodb.manageStatistics()
         if chosen == options[3]:  # "find hotel"
             mongodb.getConnection()
             mongodb.findHotel()
@@ -500,5 +498,4 @@ if __name__ == '__main__':
         if chosen == "exit":
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
-
     mongodb.close()
