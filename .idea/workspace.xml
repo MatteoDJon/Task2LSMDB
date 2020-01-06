@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="210" column="27" selection-start-line="210" selection-start-column="27" selection-end-line="210" selection-end-column="27" />
+            <state relative-caret-position="180">
+              <caret line="217" column="74" lean-forward="true" selection-start-line="217" selection-start-column="74" selection-end-line="217" selection-end-column="74" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -46,11 +46,11 @@
       <find>pprint</find>
       <find>findHo</find>
       <find>Statis</find>
-      <find>manageLogin</find>
       <find>deleteHotel</find>
       <find>deleteReviewer</find>
       <find>deleteReview</find>
       <find>findUser</find>
+      <find>manageLogin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -63,8 +63,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="49" />
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="963" />
@@ -74,7 +73,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -96,6 +94,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -162,7 +161,8 @@
       <workItem from="1578067398860" duration="328000" />
       <workItem from="1578127728982" duration="17000000" />
       <workItem from="1578214014615" duration="19548000" />
-      <workItem from="1578267106790" duration="834000" />
+      <workItem from="1578267106790" duration="1815000" />
+      <workItem from="1578301561741" duration="1385000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -276,11 +276,25 @@
       <option name="project" value="LOCAL" />
       <updated>1578257991139</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="aggiornamento">
+      <created>1578267998136</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1578267998136</updated>
+    </task>
+    <task id="LOCAL-00018" summary="manca solo analysis">
+      <created>1578268863309</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1578268863309</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60966000" />
+    <option name="totallyTimeSpent" value="63332000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -295,7 +309,7 @@
     <frame x="0" y="23" width="1680" height="963" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09096459" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09157509" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -304,11 +318,11 @@
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4785177" weight="0.398641" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Python Console" order="6" sideWeight="0.4969475" weight="0.4098737" />
-      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.498779" weight="0.3295063" />
+      <window_info anchor="bottom" id="Python Console" order="6" sideWeight="0.496337" weight="0.4098737" />
+      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.4981685" weight="0.3295063" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.5644468" weight="0.22989808" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.4090354" side_tool="true" visible="true" weight="0.19862227" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.503663" side_tool="true" weight="0.13432837" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -331,7 +345,9 @@
     <MESSAGE value="eliminata registrazione" />
     <MESSAGE value="aggiunta delete Nation menu admin" />
     <MESSAGE value="aggiunta delete City" />
-    <option name="LAST_COMMIT_MESSAGE" value="aggiunta delete City" />
+    <MESSAGE value="aggiornamento" />
+    <MESSAGE value="manca solo analysis" />
+    <option name="LAST_COMMIT_MESSAGE" value="manca solo analysis" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/PycharmProjects/grafo/venv/lib/python3.7/site-packages/pymongo/topology.py">
@@ -373,8 +389,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="210" column="27" selection-start-line="210" selection-start-column="27" selection-end-line="210" selection-end-column="27" />
+        <state relative-caret-position="180">
+          <caret line="217" column="74" lean-forward="true" selection-start-line="217" selection-start-column="74" selection-end-line="217" selection-end-column="74" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

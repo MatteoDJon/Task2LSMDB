@@ -201,6 +201,7 @@ class Connect:
             choice = input("Insert reviewer ID:")
             if choice in reviewers_list_names:
                 db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
+
     def updatePassword(self, db, user):
         while (True):
             print("Insert new password: ")
@@ -211,6 +212,7 @@ class Connect:
                 break
             else:
                 print("Choice not valid.")
+
     def findUser(self, db):
         while (True):
             option = ["view scraper info", "view admin info", "update admin info", "update scraper info"]
@@ -224,9 +226,9 @@ class Connect:
                     pprint(db.user.find({"Username": "scraper"}))
                 if choice == option[2]:
                     self.updatePassword(db, "admin")
-                if choice == option[2]:
+                if choice == option[3]:
                     self.updatePassword(db, "spider")
-            elif choice=="exit":
+            elif choice == "exit":
                 break
             else:
                 print("Choice not valid.\n")
@@ -255,6 +257,33 @@ class Connect:
                     self.deleteReview(db)
                 if chosen == option[6]:  # find user
                     self.findUser(db)
+                if chosen == options[1]:  # analitycs
+                    mongodb.getConnection()
+                # mongodb.manageAnalytics()
+                if chosen == options[2]:  # statistics
+                    mongodb.getConnection()
+                    # mongodb.manageStatistics()
+                if chosen == options[3]:  # "find hotel"
+                    mongodb.getConnection()
+                    mongodb.findHotel()
+                if chosen == options[4]:  # "find reviewer"
+                    mongodb.getConnection()
+                    mongodb.findReviewer()
+                if chosen == "help":
+                    print(options[0] + " - log in the application\n")
+                    print(options[1] + " - show available analytics about hotels in specific city or nation\n")
+                    print(options[2] + " - show available statistics about hotels in a specific city or nation\n")
+                    print(options[3] + " - find hotel in the system\n")
+                    print(options[4] + " - find all the reviews by a specific reviewer\n")
+                    print(option[0] + " - log out of the application\n")
+                    print(option[1] + " - delete nation from the system\n")
+                    print(option[2] + " - delete city from the system\n")
+                    print(option[3] + " - delete hotel from the system\n")
+                    print(option[4] + " - delete reviewer from the system\n")
+                    print(option[5] + " - delete review from the system\n")
+                    print(option[6] + " - find user information (admin or scraper)\n")
+                if chosen == "exit":
+                    break
 
     def computeAnalysisNation(self, nation):
         print("Month per month:")
