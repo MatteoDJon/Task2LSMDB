@@ -336,8 +336,8 @@ class Connect:
             {
                 "$group":
                     {"_id": "$month",
-                     "averageRatings": {"$avgrat": "$AverageRating", "$serRat": "$ServiceRating",
-                                        "$clrat": "CleanlinessRating", "$posRat": "$PositionRating"}
+                     "averageRatings": [{"$avgrat": {"$avg":"$AverageRating"}, "$serRat": {"$avg":"$ServiceRating"},
+                                        "$clrat":{"$avg": "CleanlinessRating"}, "$posRat": "$PositionRating"}]
                      }
 
             },
@@ -428,9 +428,7 @@ class Connect:
 
 
 if __name__ == '__main__':
-
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
-
     print("Options:\n")
     for item in options:
         print(item + "\n")
