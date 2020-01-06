@@ -18,7 +18,7 @@ class Connect:
                 if doc_list != None:
                     rew_list = [int(item) for item in doc_list["Reviews"]]
                     for rew in rew_list:
-                        coll = db.hotel.find_one({"Reviews._id": rew}, {"Reviews.Name": name})
+                        coll = db.hotel.find_one({"Reviews._id": rew, "Reviews.Name": name})
                         print(coll)
                         return
 
