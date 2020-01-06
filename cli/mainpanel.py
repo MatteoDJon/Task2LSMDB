@@ -370,9 +370,10 @@ class Connect:
                 "$project": {
                     "_id ": 0,
                     "poll": [{
-                        "PowerStatus": "$PowerStatus",
-                        "TempStatus": "$TempStatus",
-                        "UPSStatus": "$UPSStatus"
+                        "AverageRating": "$AverageRating",
+                        "PositionRating": "$PositionRating",
+                        "CleanlinessRating": "$CleanlinessRating",
+                        "ServiceRating": "$ServiceRating"
                     }
                     ]}},
             {"$sort": {"poll": -1}}
