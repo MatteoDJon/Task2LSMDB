@@ -238,16 +238,7 @@ class Connect:
             if choice in reviewers_list_names:
                 db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
 
-    def updatePassword(self, db, user):
-        while (True):
-            print("Insert new password: ")
-            new_pw = getpass.getpass()
-            if new_pw != "" and new_pw != "exit":
-                db.user.update({"Username": user}, {"Password": "new_pw"})
-            elif new_pw == "exit":
-                break
-            else:
-                print("Choice not valid.")
+
 
     def findUser(self, db):
         while (True):
@@ -260,6 +251,23 @@ class Connect:
                     operations = ["view", "update"]
                     print(operations[0])
                     print(operations[1])
+                    choice = input("Select operation to perform or enter 'exit' to return to main menu: ")
+                    while (True):
+                        if choice == "view":
+                            res = db.user.find({"Username": user}, {"_id": 0})
+                            pprint(res)
+                        elif choice == "update":
+                            while (True):
+                                print("Insert new password or enter 'exit' to return to main menu: ")
+                                pw = getpass.getpass()
+                                if pw == "exit":
+                                    user = "exit"
+                                    break
+                                elif pw == []:
+                                    print("Password field must not be left empty.\n")
+                                else:
+                                    db.user.update({"Username": user}, {"$set": {"Password": pw}})
+
                 elif user == "exit":
                     break
                 else:
@@ -328,34 +336,34 @@ class Connect:
                      "average": {"$avg": "$Vote"}}}
         ]
         result = db.review.hotel.aggregate(pipeline)
-        print(result)
-        #scoreboard da correggere
-        result1=db.hotel.aggregate([{
-            "$unwind" : "$AverageRating"
+        for elem in result:
+            print(elem)
+        pipeline1= [{
+            "$unwind": "$AverageRating"
         }, {
-            "$unwind" : "$ServiceRating"
+            "$unwind": "$ServiceRating"
         }, {
-            "$unwind" : "$CleanlinessRating"
+            "$unwind": "$CleanlinessRating"
         },
             {
                 "$unwind": "$PositionRating"
             },
             {
-           "$group" : {
-                "_id" : "null",
-                "AverageRating" : {
-                    "$avg" : "$AverageRating"
-                },
-               "PositionRating": {
-                   "$avg": "$PositionRating"
-               },
-               "CleanlinessRating": {
-                   "$avg": "$CleanlinessRating"
-               },
-               "ServiceRating": {
-                   "$avg": "$ServiceRating"
-               },
-        }
+                "$group": {
+                    "_id": "null",
+                    "AverageRating": {
+                        "$avg": "$AverageRating"
+                    },
+                    "PositionRating": {
+                        "$avg": "$PositionRating"
+                    },
+                    "CleanlinessRating": {
+                        "$avg": "$CleanlinessRating"
+                    },
+                    "ServiceRating": {
+                        "$avg": "$ServiceRating"
+                    },
+                }
 
             },
             {
@@ -367,8 +375,11 @@ class Connect:
                         "UPSStatus": "$UPSStatus"
                     }
                     ]}},
-            { "$sort": {"poll":-1 }}
-        ])
+            {"$sort": {"poll": -1}}
+        ]
+        result1=db.hotel.aggregate(pipeline1)
+        for elem in result1:
+            print(elem)
 
     def manageStatistics(self):
         db = self.client["test_database"]
@@ -485,4 +496,3 @@ if __name__ == '__main__':
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
     mongodb.close()
-
