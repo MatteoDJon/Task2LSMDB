@@ -105,7 +105,45 @@ class Connect:
             self.client.close()
 
     def manageAnalytics(self):
-        plt = input("Select city or nation:\n")
+        db = self.client["test_database"]
+        cities_to_analysis = db.nation.distinct("City.cityName")
+        nations_to_analysis = db.nation.distinct("Nation")
+        types = ["City", "Nation"]
+        for choice in types:
+            print(choice + "\n")
+        type = input("Select city or nation or enter 'exit' to return to main menu:\n")
+        while (True):
+            if type == "City":
+                while (True):
+                    for city in cities_to_analysis:
+                        print(city + "\n")
+                    place = input("Select city or enter 'exit' to return to main menu: \n")
+                    if place in cities_to_analysis:
+                        self.computeAnalysis(type, place)
+                    elif place == "exit":
+                        type = place
+                        break
+                    else:
+                        print("Choice not valid.\n")
+            elif type == "Nation":
+                while (True):
+                    for nat in nations_to_analysis:
+                        print(nat + "\n")
+                    place = input("Select city or enter 'exit' to return to main menu: \n")
+                    if place in cities_to_analysis:
+                        self.computeAnalysis(type, place)
+                    elif place == "exit":
+                        type = place
+                        break
+                    else:
+                        print("Choice not valid.\n")
+            elif type == "exit":
+                break
+            else:
+                print("Choice not valid.\n")
+                for choice in types:
+                    print(choice + "\n")
+                type = input("Select city or nation or enter 'exit' to return to main menu:\n")
 
     def deleteNation(self, db):
         while (True):
@@ -216,19 +254,18 @@ class Connect:
     def findUser(self, db):
         while (True):
             option = ["admin", "spider"]
-            user=input("Select user or enter 'exit' to return to main menu: ")
+            user = input("Select user or enter 'exit' to return to main menu: ")
             print(option[0])
             print(option[1])
-            while(True):
-                if user=="admin" or user=="scraper":
-                    operations=["view", "update"]
+            while (True):
+                if user == "admin" or user == "scraper":
+                    operations = ["view", "update"]
                     print(operations[0])
                     print(operations[1])
-                elif user=="exit":
+                elif user == "exit":
                     break
                 else:
                     print("Choice not valid.\n")
-
 
     def manageLogin(self):
         db = self.client["test_database"]
@@ -257,12 +294,11 @@ class Connect:
                 if chosen == options[1]:  # analitycs
                     self.manageAnalytics()
                 if chosen == options[2]:  # statistics
-                    mongodb.manageStatistics()
+                    self.manageStatistics()
                 if chosen == options[3]:  # "find hotel"
                     self.findHotel()
                 if chosen == options[4]:  # "find reviewer"
-                    self.getConnection()
-                    mongodb.findReviewer()
+                    self.findReviewer()
                 if chosen == "help":
                     print(options[0] + " - log in the application\n")
                     print(options[1] + " - show available analytics about hotels in specific city or nation\n")
@@ -279,8 +315,11 @@ class Connect:
                 if chosen == "exit":
                     break
 
+    def computeAnalysis(self, type, place):
+        print("TODO")
+
     def computeAnalysisNation(self, nation):
-        db=self.client["test_database"]
+        db = self.client["test_database"]
         now = datetime.datetime.now()
         year = now.strftime("%Y")
         print("Month per month:")
@@ -297,7 +336,7 @@ class Connect:
         print(result)
         pipeline1 = [
             {
-                "$match": {"nationID": nation}
+                "$match": {"Nation": nation}
             },
             {
                 "$group":
@@ -344,7 +383,6 @@ class Connect:
         for i in averall_avgs:
             print("The averages for current year for hotel " + i.key() + " are:\n")
             print(i)
-
 
     def manageStatistics(self):
         db = self.client["test_database"]
@@ -443,7 +481,7 @@ if __name__ == '__main__':
             mongodb.manageLogin()
         if chosen == options[1]:  # analitycs
             mongodb.getConnection()
-        # mongodb.manageAnalytics()
+            mongodb.manageAnalytics()
         if chosen == options[2]:  # statistics
             mongodb.getConnection()
             # mongodb.manageStatistics()
