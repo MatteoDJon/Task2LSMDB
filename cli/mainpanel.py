@@ -329,24 +329,7 @@ class Connect:
         ]
         result = db.review.hotel.aggregate(pipeline)
         print(result)
-        pipeline1 = [
-            {
-                "$match": {type: place}
-            },
-            {
-                "$group":
-                    {"_id": "$month",
-                     "averageRatings": [{"$avgrat": {"$avg":"$AverageRating"}, "$serRat": {"$avg":"$ServiceRating"},
-                                        "$clrat":{"$avg": "CleanlinessRating"}, "$posRat": "$PositionRating"}]
-                     }
-
-            },
-            {
-                "$sort": {"averageRatings": -1}
-            }
-        ]
-        result1 = self.client.hotel.aggregate(pipeline1)
-        print(result1)
+        #scoreboard da correggere
 
     def manageStatistics(self):
         db = self.client["test_database"]
@@ -463,3 +446,24 @@ if __name__ == '__main__':
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
     mongodb.close()
+
+'''
+pipeline1 = [
+            {
+                "$match": {type: place}
+            },
+            {
+                "$group":
+                    {"_id": "$month",
+                     "averageRatings": ["$avgrat": {"$avg":"$AverageRating"}, "$serRat": {"$avg":"$ServiceRating"},
+                                        "$clrat":{"$avg": "CleanlinessRating"}, "$posRat":{"$avg": "$PositionRating"}]
+                     }
+
+            },
+            {
+                "$sort": {"averageRatings": -1}
+            }
+        ]
+        result1 = self.client.hotel.aggregate(pipeline1)
+        print(result1)
+'''
