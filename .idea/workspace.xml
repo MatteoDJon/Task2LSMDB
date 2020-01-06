@@ -19,11 +19,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="342" column="14" lean-forward="true" selection-start-line="342" selection-start-column="14" selection-end-line="342" selection-end-column="14" />
+            <state relative-caret-position="776">
+              <caret line="369" column="14" selection-start-line="369" selection-start-column="14" selection-end-line="369" selection-end-column="14" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-                <element signature="e#17428#17760#0" />
               </folding>
             </state>
           </provider>
@@ -81,6 +80,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -102,7 +102,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -170,7 +169,8 @@
       <workItem from="1578127728982" duration="17000000" />
       <workItem from="1578214014615" duration="19548000" />
       <workItem from="1578267106790" duration="1815000" />
-      <workItem from="1578301561741" duration="5194000" />
+      <workItem from="1578301561741" duration="7281000" />
+      <workItem from="1578311402882" duration="639000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -340,11 +340,25 @@
       <option name="project" value="LOCAL" />
       <updated>1578307802401</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="finished">
+      <created>1578308992308</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1578308992308</updated>
+    </task>
+    <task id="LOCAL-00026" summary="finished">
+      <created>1578309221869</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1578309221869</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67141000" />
+    <option name="totallyTimeSpent" value="69867000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -357,8 +371,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="963" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.09157509" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.092185594" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -439,11 +454,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="342" column="14" lean-forward="true" selection-start-line="342" selection-start-column="14" selection-end-line="342" selection-end-column="14" />
+        <state relative-caret-position="776">
+          <caret line="369" column="14" selection-start-line="369" selection-start-column="14" selection-end-line="369" selection-end-column="14" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
-            <element signature="e#17428#17760#0" />
           </folding>
         </state>
       </provider>
