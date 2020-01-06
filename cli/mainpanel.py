@@ -201,16 +201,36 @@ class Connect:
             choice = input("Insert reviewer ID:")
             if choice in reviewers_list_names:
                 db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
-    def findUser(self, db):
-        while(True):
-            option=["view scraper info", "view admin info", "update admin info", "update scraper info"]
-            for opt in option:
-                print(opt+"\n")
-            choice=input("Select operation or enter 'exit' to return to admin menu: ")
-            if choice in option:
-                print("TODO")
-            else:
+    def updatePassword(self, db, user):
+        while (True):
+            print("Insert new password: ")
+            new_pw = getpass.getpass()
+            if new_pw != "" and new_pw != "exit":
+                db.user.update({"Username": user}, {"Password": "new_pw"})
+            elif new_pw == "exit":
                 break
+            else:
+                print("Choice not valid.")
+    def findUser(self, db):
+        while (True):
+            option = ["view scraper info", "view admin info", "update admin info", "update scraper info"]
+            for opt in option:
+                print(opt + "\n")
+            choice = input("Select operation or enter 'exit' to return to admin menu: ")
+            if choice in option:
+                if choice == option[0]:
+                    pprint(db.user.find({"Username": "admin"}))
+                if choice == option[1]:
+                    pprint(db.user.find({"Username": "scraper"}))
+                if choice == option[2]:
+                    self.updatePassword(db, "admin")
+                if choice == option[2]:
+                    self.updatePassword(db, "spider")
+            elif choice=="exit":
+                break
+            else:
+                print("Choice not valid.\n")
+
     def manageLogin(self):
         db = self.client["test_database"]
         username = input("Username: ")
@@ -235,6 +255,7 @@ class Connect:
                     self.deleteReview(db)
                 if chosen == option[6]:  # find user
                     self.findUser(db)
+
     def computeAnalysisNation(self, nation):
         print("Month per month:")
         pipeline = [
