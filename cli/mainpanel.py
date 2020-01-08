@@ -1,11 +1,10 @@
 import pymongo
-import datetime
-import getpass
+from datetime import datetime
+from getpass import getpass
 from pprint import pprint
 
 
 class Connect:
-
     def __init__(self):
         self.client = None
 
@@ -257,7 +256,7 @@ class Connect:
                         elif choice == "update":
                             while (True):
                                 print("Insert new password or enter 'exit' to return to main menu: ")
-                                pw = getpass.getpass()
+                                pw = getpass()
                                 if pw == "exit":
                                     user = "exit"
                                     break
@@ -274,7 +273,7 @@ class Connect:
     def manageLogin(self):
         db = self.client["test_database"]
         username = input("Username: ")
-        pw = getpass.getpass()
+        pw = getpass()
         res = db.user.count_documents({"Username": username, "Password": pw})
         if res > 0:
             option = ["logout", "delete nation", "delete city", "delete hotel", "delete reviewer",
@@ -321,7 +320,7 @@ class Connect:
 
     def computeAnalysis(self, type, place):
         db = self.client["test_database"]
-        now = datetime.datetime.now()
+        now = datetime.now()
         year = now.strftime("%Y")
         print("Month per month:")
         pipeline = [
@@ -455,7 +454,6 @@ class Connect:
         numNeg = db.hotel.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
         numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
         return [numPos, numNeg, numMed]
-
 
 if __name__ == '__main__':
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
