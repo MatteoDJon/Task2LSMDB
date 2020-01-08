@@ -238,8 +238,6 @@ class Connect:
             if choice in reviewers_list_names:
                 db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
 
-
-
     def findUser(self, db):
         while (True):
             option = ["admin", "spider"]
@@ -338,16 +336,15 @@ class Connect:
         result = db.review.hotel.aggregate(pipeline)
         for elem in result:
             print(elem)
-        pipeline1= [{
+        pipeline1 = [{
             "$unwind": "$AverageRating"
         }, {
             "$unwind": "$ServiceRating"
         }, {
             "$unwind": "$CleanlinessRating"
+        }, {
+            "$unwind": "$PositionRating"
         },
-            {
-                "$unwind": "$PositionRating"
-            },
             {
                 "$group": {
                     "_id": "null",
@@ -378,7 +375,7 @@ class Connect:
                     ]}},
             {"$sort": {"poll": -1}}
         ]
-        result1=db.hotel.aggregate(pipeline1)
+        result1 = db.hotel.aggregate(pipeline1)
         for elem in result1:
             print(elem)
 
@@ -386,7 +383,6 @@ class Connect:
         db = self.client["test_database"]
         option = ["AverageRating", "ServiceRating", "CleanlinessRating", "PositionRating"]
         type = input("Select city or nation")
-        place = ""
         while (True):
             if type == "City":
                 list_available_cities = db.nation.distinct("Cities.cityName")
