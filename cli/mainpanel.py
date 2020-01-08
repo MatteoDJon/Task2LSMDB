@@ -455,6 +455,7 @@ class Connect:
         numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
         return [numPos, numNeg, numMed]
 
+
 if __name__ == '__main__':
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
     print("Options:\n")
