@@ -2,7 +2,7 @@ import pymongo
 from datetime import datetime
 from getpass import getpass
 from pprint import pprint
-
+import PySimpleGUI as sg
 
 class Connect:
     def __init__(self):
@@ -270,12 +270,12 @@ class Connect:
                 else:
                     print("Choice not valid.\n")
 
-    def manageLogin(self):
+    def manageLogin(self, options):
         db = self.client["test_database"]
         username = input("Username: ")
         pw = getpass()
         res = db.user.count_documents({"Username": username, "Password": pw})
-        if res > 0:
+        if res > 0 and username=="admin":
             option = ["logout", "delete nation", "delete city", "delete hotel", "delete reviewer",
                       "delete review" "find user"]
             while (True):
@@ -317,6 +317,8 @@ class Connect:
                     print(option[6] + " - find user information (admin or scraper)\n")
                 if chosen == "exit":
                     break
+        elif res>0 and username=="scraper":
+            print("TODO")
 
     def computeAnalysis(self, type, place):
         db = self.client["test_database"]
@@ -457,6 +459,7 @@ class Connect:
 
 
 if __name__ == '__main__':
+
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
     print("Options:\n")
     for item in options:
@@ -469,7 +472,7 @@ if __name__ == '__main__':
         # if pid == 0:  # child process
         if chosen == options[0]:  # login
             mongodb.getConnection()
-            mongodb.manageLogin()
+            mongodb.manageLogin(options)
         if chosen == options[1]:  # analitycs
             mongodb.getConnection()
             mongodb.manageAnalytics()
