@@ -2,7 +2,8 @@ import pymongo
 from datetime import datetime
 from getpass import getpass
 from pprint import pprint
-import PySimpleGUI as sg
+import matplotlib.pyplot as plt
+import numpy as np
 
 class Connect:
     def __init__(self):
@@ -379,7 +380,36 @@ class Connect:
         result1 = db.hotel.aggregate(pipeline1)
         for elem in result1:
             print(elem)
+    def histogramStatistic(self, neg, med, pos, place, attribute):
+        labels = ['Negative', 'Neutral', 'Positive']
+        men_means = [20, 34, 30]
 
+        x = np.arange(len(labels))  # the label locations
+        width = 0.35  # the width of the bars
+
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(x - width / 2, men_means, width, label='Hotels')
+
+        ax.set_ylabel('Number of hotels in '+ place)
+        ax.set_title('Average score for attribute '+attribute)
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
+        ax.legend()
+
+        def autolabel(rects):
+            for rect in rects:
+                height = rect.get_height()
+                ax.annotate('{}'.format(height),
+                            xy=(rect.get_x() + rect.get_width() / 2, height),
+                            xytext=(0, 3),
+                            textcoords="offset points",
+                            ha='center', va='bottom')
+
+        autolabel(rects1)
+
+        fig.tight_layout()
+
+        plt.show()
     def manageStatistics(self):
         db = self.client["test_database"]
         option = ["AverageRating", "ServiceRating", "CleanlinessRating", "PositionRating"]
@@ -400,10 +430,8 @@ class Connect:
                                 print(elem + "\n")
                             chosen = input("Select evaluation parameter or enter 'exit' to return to main menu: ")
                             if chosen in option:
-                                result = self.computeAvg(chosen, place, type)
-                                print("Positive: " + str(result[0]))
-                                print("Neutral: " + str(result[2]))
-                                print("Negative: " + str(result[1]))
+                                self.computeAvg(chosen, place, type)
+
                             elif chosen == "exit":
                                 place = "exit"
                                 break
@@ -455,11 +483,42 @@ class Connect:
         numPos = db.hotel.count_documents({"$and": [{chosen: {"$gt": 6}}, {type: place}]})
         numNeg = db.hotel.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
         numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
-        return [numPos, numNeg, numMed]
-
+        self.histogramStatistic(numNeg, numMed, numPos, place, chosen)
 
 if __name__ == '__main__':
 
+    labels = ['neg', 'neu', 'pos']
+    men_means = [20, 34, 30]
+
+    x = np.arange(len(labels))  # the label locations
+    width = 0.35  # the width of the bars
+
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x - width / 2, men_means, width, label='Men')
+
+    ax.set_ylabel('Scores')
+    ax.set_title('Average score for ')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+
+
+    def autolabel(rects):
+        for rect in rects:
+            height = rect.get_height()
+            ax.annotate('{}'.format(height),
+                        xy=(rect.get_x() + rect.get_width() / 2, height),
+                        xytext=(0, 3),
+                        textcoords="offset points",
+                        ha='center', va='bottom')
+
+
+    autolabel(rects1)
+
+    fig.tight_layout()
+
+    plt.show()
+'''
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
     print("Options:\n")
     for item in options:
@@ -495,3 +554,4 @@ if __name__ == '__main__':
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
     mongodb.close()
+'''
