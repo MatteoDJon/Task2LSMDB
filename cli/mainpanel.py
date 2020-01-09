@@ -487,38 +487,6 @@ class Connect:
 
 if __name__ == '__main__':
 
-    labels = ['neg', 'neu', 'pos']
-    men_means = [20, 34, 30]
-
-    x = np.arange(len(labels))  # the label locations
-    width = 0.35  # the width of the bars
-
-    fig, ax = plt.subplots()
-    rects1 = ax.bar(x - width / 2, men_means, width, label='Men')
-
-    ax.set_ylabel('Scores')
-    ax.set_title('Average score for ')
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    ax.legend()
-
-
-    def autolabel(rects):
-        for rect in rects:
-            height = rect.get_height()
-            ax.annotate('{}'.format(height),
-                        xy=(rect.get_x() + rect.get_width() / 2, height),
-                        xytext=(0, 3),
-                        textcoords="offset points",
-                        ha='center', va='bottom')
-
-
-    autolabel(rects1)
-
-    fig.tight_layout()
-
-    plt.show()
-'''
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
     print("Options:\n")
     for item in options:
@@ -554,4 +522,3 @@ if __name__ == '__main__':
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
     mongodb.close()
-'''
