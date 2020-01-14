@@ -160,7 +160,6 @@ class Connect:
                         for r in hot["Reviews"]:
                             rew_num.append(r["_id"])
                     if rew_num != []:
-                        # db.hotel.update({}, {"$pull": {"Reviews._id": {"$in": rew_num}}}, {"multi": "true"})
                         db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_num}}}, {"multi": "true"})
                 db.hotel.remove({"Nation": choice})
                 db.nation.remove({"Name": choice})
@@ -568,7 +567,7 @@ if __name__ == '__main__':
     print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
     mongodb = Connect()
     while (True):
-        chosen = input("Choice:")
+        chosen = input("Choice: ")
         # pid = os.fork()
         # if pid == 0:  # child process
         if chosen == options[0]:  # login
