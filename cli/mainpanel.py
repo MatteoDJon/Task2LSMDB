@@ -555,7 +555,7 @@ class Connect:
         self.histogramStatistic(numNeg, numMed, numPos, place, chosen)
     def listNations(self):
         db=self.client["test_database"]
-        nations=db.hotels.distinct("NationID")
+        nations=db.hotel.distinct("NationID")
         for elem in nations:
             print(elem)
 if __name__ == '__main__':
