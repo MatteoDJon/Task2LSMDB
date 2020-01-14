@@ -303,6 +303,8 @@ class Connect:
                     self.findHotel()
                 if chosen == options[4]:  # "find reviewer"
                     self.findReviewer()
+                if chosen == options[5]:  # "list Nations"
+                    self.listNations()
                 if chosen == "help":
                     print(options[0] + " - log in the application\n")
                     print(options[1] + " - show available analytics about hotels in specific city or nation\n")
@@ -551,10 +553,14 @@ class Connect:
         numNeg = db.hotel.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
         numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
         self.histogramStatistic(numNeg, numMed, numPos, place, chosen)
-
+    def listNations(self):
+        db=self.client["test_database"]
+        nations=db.hotels.distinct("NationID")
+        for elem in nations:
+            print(elem)
 if __name__ == '__main__':
 
-    options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer"]
+    options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer", "list nations"]
     print("Options:\n")
     for item in options:
         print(item + "\n")
@@ -579,6 +585,9 @@ if __name__ == '__main__':
         if chosen == options[4]:  # "find reviewer"
             mongodb.getConnection()
             mongodb.findReviewer()
+        if chosen == options[5]:  # "list Nations"
+            mongodb.getConnection()
+            mongodb.listNations()
         if chosen == "help":
             print(options[0] + " - log in the application\n")
             print(options[1] + " - show available analytics about hotels in specific city or nation\n")
