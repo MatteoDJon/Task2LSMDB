@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c30b48dc-020b-487c-9202-3ecb1ac9b529" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cli/mainpanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/cli/mainpanel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,17 +13,30 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Task2LSMDB$lio.coverage" NAME="lio Coverage Results" MODIFIED="1578575156590" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cli" />
-    <SUITE FILE_PATH="coverage/Task2LSMDB$mainpanel.coverage" NAME="mainpanel Coverage Results" MODIFIED="1578591846194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cli" />
+    <SUITE FILE_PATH="coverage/Task2LSMDB$exem.coverage" NAME="exem Coverage Results" MODIFIED="1579013739720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cli" />
+    <SUITE FILE_PATH="coverage/Task2LSMDB$mainpanel.coverage" NAME="mainpanel Coverage Results" MODIFIED="1578931263472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cli" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="433" column="32" selection-start-line="433" selection-start-column="32" selection-end-line="433" selection-end-column="32" />
+            <state relative-caret-position="536">
+              <caret line="447" column="55" lean-forward="true" selection-start-line="447" selection-start-column="55" selection-end-line="447" selection-end-column="55" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cli/exem.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="33" selection-start-line="6" selection-start-column="4" selection-end-line="33" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -39,8 +53,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>computeAn</find>
-      <find>computeAnalysisNation</find>
       <find>showCiti</find>
       <find>showCities</find>
       <find>pprint</find>
@@ -51,11 +63,9 @@
       <find>deleteReview</find>
       <find>findUser</find>
       <find>analytics</find>
-      <find>analy</find>
       <find>anal</find>
       <find>manageAnalytics</find>
       <find>manageAna</find>
-      <find>computeAna</find>
       <find>computeAnalysis</find>
       <find>find_one</find>
       <find>find</find>
@@ -67,6 +77,12 @@
       <find>statistic</find>
       <find>manageStatistics</find>
       <find>histo</find>
+      <find>histogra</find>
+      <find>histog</find>
+      <find>analy</find>
+      <find>histogramAce</find>
+      <find>computeA</find>
+      <find>computeAna</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -77,6 +93,7 @@
       <list>
         <option value="$PROJECT_DIR$/cli/connection.py" />
         <option value="$PROJECT_DIR$/cli/lio.py" />
+        <option value="$PROJECT_DIR$/cli/exem.py" />
         <option value="$PROJECT_DIR$/cli/mainpanel.py" />
       </list>
     </option>
@@ -84,7 +101,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="963" />
+    <option name="height" value="961" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -133,7 +150,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.mainpanel">
+  <component name="RunManager" selected="Python.exem">
+    <configuration name="exem" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Task2LSMDB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cli" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cli/exem.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="lio" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Task2LSMDB" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -180,6 +219,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.exem" />
         <item itemvalue="Python.mainpanel" />
         <item itemvalue="Python.lio" />
       </list>
@@ -207,7 +247,9 @@
       <workItem from="1578311402882" duration="3878000" />
       <workItem from="1578471921878" duration="2473000" />
       <workItem from="1578562977638" duration="2453000" />
-      <workItem from="1578573166566" duration="3022000" />
+      <workItem from="1578573166566" duration="3892000" />
+      <workItem from="1578931052365" duration="1351000" />
+      <workItem from="1579013342934" duration="1272000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -440,11 +482,25 @@
       <option name="project" value="LOCAL" />
       <updated>1578590871101</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="added histogram statistics">
+      <created>1578592094348</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1578592094348</updated>
+    </task>
+    <task id="LOCAL-00035" summary="added histogram statistics">
+      <created>1578592121450</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1578592121450</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81054000" />
+    <option name="totallyTimeSpent" value="84547000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -456,15 +512,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="963" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="961" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49603623" visible="true" weight="0.094017096" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4947644" visible="true" weight="0.0952381" />
+      <window_info id="Structure" order="1" sideWeight="0.5052356" side_tool="true" visible="true" weight="0.0952381" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5909646" visible="true" weight="0.4879449" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5909646" visible="true" weight="0.12082854" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4785177" weight="0.398641" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -500,7 +556,8 @@
     <MESSAGE value="finished" />
     <MESSAGE value="corrected pw" />
     <MESSAGE value="&#10;reformatting" />
-    <option name="LAST_COMMIT_MESSAGE" value="&#10;reformatting" />
+    <MESSAGE value="added histogram statistics" />
+    <option name="LAST_COMMIT_MESSAGE" value="added histogram statistics" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/PycharmProjects/grafo/venv/lib/python3.7/site-packages/pymongo/topology.py">
@@ -541,20 +598,21 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/connection.py" />
-    <entry file="file://$PROJECT_DIR$/cli/lio.py">
+    <entry file="file://$PROJECT_DIR$/cli/lio.py" />
+    <entry file="file://$PROJECT_DIR$/cli/exem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="35" lean-forward="true" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
+        <state relative-caret-position="495">
+          <caret line="33" selection-start-line="6" selection-start-column="4" selection-end-line="33" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="433" column="32" selection-start-line="433" selection-start-column="32" selection-end-line="433" selection-end-column="32" />
+        <state relative-caret-position="536">
+          <caret line="447" column="55" lean-forward="true" selection-start-line="447" selection-start-column="55" selection-end-line="447" selection-end-column="55" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

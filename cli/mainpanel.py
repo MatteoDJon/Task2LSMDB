@@ -321,6 +321,63 @@ class Connect:
         elif res>0 and username=="scraper":
             print("TODO")
 
+    def histogramAverageMonth(self,x_axis, label):
+        labels = label
+        men_means = x_axis
+        x = np.arange(len(labels))
+        width = 0.35
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(x - width / 2, men_means, width, label='Average\nvote')
+
+        ax.set_ylabel('Averages vote per month')
+        ax.set_xlabel('Months')
+
+        ax.set_title('Average votes per month')
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
+        ax.legend()
+
+        def autolabel(rects):
+            for rect in rects:
+                height = rect.get_height()
+                ax.annotate('{}'.format(height),
+                            xy=(rect.get_x() + rect.get_width() / 2, height),
+                            xytext=(0, 3),
+                            textcoords="offset points",
+                            ha='center', va='bottom')
+
+        autolabel(rects1)
+        fig.tight_layout()
+        plt.show()
+    def histogramAverageHotel(self, x_axis, label, place):
+        labels = label
+        men_means = x_axis
+        x = np.arange(len(labels))
+        width = 0.35
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(x - width / 2, men_means, width, label='Average\nvote')
+
+        ax.set_ylabel('Averages evaluation')
+        ax.set_xlabel('Parameters')
+
+        ax.set_title('Hotel evaluation for '+place)
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
+        ax.legend()
+
+        def autolabel(rects):
+            for rect in rects:
+                height = rect.get_height()
+                ax.annotate('{}'.format(height),
+                            xy=(rect.get_x() + rect.get_width() / 2, height),
+                            xytext=(0, 3),
+                            textcoords="offset points",
+                            ha='center', va='bottom')
+
+        autolabel(rects1)
+        fig.tight_layout()
+        plt.show()
+
     def computeAnalysis(self, type, place):
         db = self.client["test_database"]
         now = datetime.now()
@@ -336,8 +393,18 @@ class Connect:
                      "average": {"$avg": "$Vote"}}}
         ]
         result = db.review.hotel.aggregate(pipeline)
+        x_axis=[]
+        labels=[]
+
         for elem in result:
-            print(elem)
+            if elem["_id"] not in x_axis:
+                x_axis.append(elem[["_id"]])
+                labels.append(elem["average"])
+        self.histogramAverageMonth(labels, x_axis)
+
+
+
+
         pipeline1 = [{
             "$unwind": "$AverageRating"
         }, {
@@ -349,7 +416,7 @@ class Connect:
         },
             {
                 "$group": {
-                    "_id": "null",
+                    "_id": {type:place},
                     "AverageRating": {
                         "$avg": "$AverageRating"
                     },
@@ -378,15 +445,17 @@ class Connect:
             {"$sort": {"poll": -1}}
         ]
         result1 = db.hotel.aggregate(pipeline1)
-        for elem in result1:
-            print(elem)
+        labels.append(result1["poll"]["AverageRating"])
+        labels.append(result1["poll"]["PositionRating"])
+        labels.append(result1["poll"]["CleanlinessRating"])
+        labels.append(result1["poll"]["ServiceRating"])
+
+        self.histogramAverageHotel(["AverageRating", "PositionRating", "CleanlinessRating", "ServiceRating" ], labels, place)
     def histogramStatistic(self, neg, med, pos, place, attribute):
         labels = ['Negative', 'Neutral', 'Positive']
-        men_means = [20, 34, 30]
-
+        men_means = [neg, med, pos]
         x = np.arange(len(labels))  # the label locations
         width = 0.35  # the width of the bars
-
         fig, ax = plt.subplots()
         rects1 = ax.bar(x - width / 2, men_means, width, label='Hotels')
 
@@ -404,12 +473,10 @@ class Connect:
                             xytext=(0, 3),
                             textcoords="offset points",
                             ha='center', va='bottom')
-
         autolabel(rects1)
-
         fig.tight_layout()
-
         plt.show()
+
     def manageStatistics(self):
         db = self.client["test_database"]
         option = ["AverageRating", "ServiceRating", "CleanlinessRating", "PositionRating"]
