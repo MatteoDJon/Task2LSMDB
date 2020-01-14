@@ -99,7 +99,7 @@ class Connect:
             self.client = pymongo.MongoClient('mongodb://localhost:27017/')
 
     def close(self):
-        if self.client != "":
+        if self.client != None:
             self.client.close()
 
     def manageAnalytics(self):
@@ -553,6 +553,7 @@ class Connect:
         numNeg = db.hotel.count_documents({"$and": [{chosen: {"$lt": 5}}, {type: place}]})
         numMed = db.hotel.count_documents({type: place}) - (numPos + numNeg)
         self.histogramStatistic(numNeg, numMed, numPos, place, chosen)
+
     def listNations(self):
         db=self.client["test_database"]
         nations=db.hotel.distinct("NationID")
@@ -597,4 +598,5 @@ if __name__ == '__main__':
         if chosen == "exit":
             break
         print("Select an option or enter exit to quit the application (enter 'help' for command explanation).\n")
-    mongodb.close()
+    if mongodb!=None:
+        mongodb.close()
