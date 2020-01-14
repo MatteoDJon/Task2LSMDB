@@ -557,7 +557,7 @@ class Connect:
         db=self.client["test_database"]
         nations=db.hotel.distinct("NationID")
         for elem in nations:
-            print(elem)
+            print(elem+"\n")
 if __name__ == '__main__':
 
     options = ["login", "read analytics", "read statistics", "find hotel", "find reviewer", "list nations"]
