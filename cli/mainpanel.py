@@ -20,7 +20,7 @@ class Connect:
                     for rew in rew_list:
                         coll = db.hotel.find_one({"Reviews._id": rew, "Reviews.Name": name})
                         print(coll)
-                        return
+                    return
 
                 else:
                     print("Reviewer not found.\n")

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c30b48dc-020b-487c-9202-3ecb1ac9b529" name="Default Changelist" comment="added functionalities">
+    <list default="true" id="c30b48dc-020b-487c-9202-3ecb1ac9b529" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/mainpanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/cli/mainpanel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="569" column="32" selection-start-line="569" selection-start-column="32" selection-end-line="569" selection-end-column="32" />
+            <state relative-caret-position="240">
+              <caret line="16" column="43" selection-start-line="16" selection-end-line="17" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -33,7 +32,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/exem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
+            <state relative-caret-position="480">
               <caret line="33" selection-start-line="6" selection-start-column="4" selection-end-line="33" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -53,9 +52,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pprint</find>
-      <find>findHo</find>
-      <find>Statis</find>
       <find>deleteHotel</find>
       <find>deleteReviewer</find>
       <find>deleteReview</find>
@@ -83,6 +79,9 @@
       <find>computeAna</find>
       <find>hotel</find>
       <find>close</find>
+      <find>findHotel</find>
+      <find>listNations</find>
+      <find>findReviewer</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -108,7 +107,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -130,6 +128,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -249,7 +248,8 @@
       <workItem from="1578562977638" duration="2453000" />
       <workItem from="1578573166566" duration="3892000" />
       <workItem from="1578931052365" duration="1351000" />
-      <workItem from="1579013342934" duration="2227000" />
+      <workItem from="1579013342934" duration="2575000" />
+      <workItem from="1579178604736" duration="1901000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -531,11 +531,18 @@
       <option name="project" value="LOCAL" />
       <updated>1579015435089</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="added functionalities">
+      <created>1579015693924</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1579015693924</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85502000" />
+    <option name="totallyTimeSpent" value="87751000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -548,13 +555,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="961" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4947644" visible="true" weight="0.0952381" />
-      <window_info id="Structure" order="1" sideWeight="0.5052356" side_tool="true" visible="true" weight="0.0952381" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49367088" visible="true" weight="0.0964591" />
+      <window_info id="Structure" order="1" sideWeight="0.5063291" side_tool="true" visible="true" weight="0.0964591" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5909646" visible="true" weight="0.12082854" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5909646" weight="0.12082854" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4785177" weight="0.398641" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -570,7 +578,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Data View" order="3" weight="0.32975295" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="SciView" order="5" visible="true" weight="0.33150184" />
+      <window_info active="true" anchor="right" id="SciView" order="5" visible="true" weight="0.33150184" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -634,22 +642,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cli/connection.py" />
     <entry file="file://$PROJECT_DIR$/cli/lio.py" />
-    <entry file="file://$PROJECT_DIR$/cli/exem.py">
+    <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" selection-start-line="6" selection-start-column="4" selection-end-line="33" />
+        <state relative-caret-position="240">
+          <caret line="16" column="43" selection-start-line="16" selection-end-line="17" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
+    <entry file="file://$PROJECT_DIR$/cli/exem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="569" column="32" selection-start-line="569" selection-start-column="32" selection-end-line="569" selection-end-column="32" />
+        <state relative-caret-position="480">
+          <caret line="33" selection-start-line="6" selection-start-column="4" selection-end-line="33" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
