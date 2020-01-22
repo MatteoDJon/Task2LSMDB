@@ -182,7 +182,7 @@ class Connect:
                     hot_num.append(hot["_id"])
                     for r in hot["Reviews"]:
                         rew_to_delete.append(r["_id"])
-                db.nation.update({}, {"$pull": {"Cities.cityName": {"$in": cities_in_system}}}, {"multi": "true"})
+                db.nation.update({}, {"$pull": {"Cities.cityName": choice}})
                 db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_to_delete}}}, {"multi": "true"})
                 break
             elif choice == "exit":
@@ -232,10 +232,10 @@ class Connect:
 
     def deleteReview(self, db):
         reviewers_list_names = db.reviewer.distinct("Name")
-        while (True):
-            choice = input("Insert reviewer ID:")
-            if choice in reviewers_list_names:
-                db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
+        choice = input("Insert reviewer ID:")
+        if choice in reviewers_list_names:
+            db.reviewer.update({"Name": choice}, {"$pull": {"Reviews.Reviewer": choice}})
+
 
     def findUser(self, db):
         while (True):

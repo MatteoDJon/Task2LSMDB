@@ -20,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="43" selection-start-line="16" selection-end-line="17" />
+            <state relative-caret-position="431">
+              <caret line="207" column="34" lean-forward="true" selection-start-line="207" selection-start-column="34" selection-end-line="207" selection-end-column="34" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -66,7 +66,6 @@
       <find>update</find>
       <find>datetime</find>
       <find>manageLog</find>
-      <find>manageLogin</find>
       <find>statistics</find>
       <find>statistic</find>
       <find>manageStatistics</find>
@@ -82,6 +81,7 @@
       <find>findHotel</find>
       <find>listNations</find>
       <find>findReviewer</find>
+      <find>manageLogin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -249,7 +249,10 @@
       <workItem from="1578573166566" duration="3892000" />
       <workItem from="1578931052365" duration="1351000" />
       <workItem from="1579013342934" duration="2575000" />
-      <workItem from="1579178604736" duration="1901000" />
+      <workItem from="1579178604736" duration="2502000" />
+      <workItem from="1579286077342" duration="505000" />
+      <workItem from="1579429816348" duration="2439000" />
+      <workItem from="1579710563103" duration="812000" />
     </task>
     <task id="LOCAL-00001" summary="dsdsa">
       <created>1577800118590</created>
@@ -538,11 +541,18 @@
       <option name="project" value="LOCAL" />
       <updated>1579015693924</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="added functionalities">
+      <created>1579188164406</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1579188164406</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87751000" />
+    <option name="totallyTimeSpent" value="92108000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -557,8 +567,8 @@
     <frame x="0" y="23" width="1680" height="961" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49367088" visible="true" weight="0.0964591" />
-      <window_info id="Structure" order="1" sideWeight="0.5063291" side_tool="true" visible="true" weight="0.0964591" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49021864" visible="true" weight="0.1001221" />
+      <window_info id="Structure" order="1" sideWeight="0.50978136" side_tool="true" visible="true" weight="0.1001221" />
       <window_info id="Favorites" order="2" sideWeight="0.50396377" side_tool="true" weight="0.09076262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -644,8 +654,8 @@
     <entry file="file://$PROJECT_DIR$/cli/lio.py" />
     <entry file="file://$PROJECT_DIR$/cli/mainpanel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="43" selection-start-line="16" selection-end-line="17" />
+        <state relative-caret-position="431">
+          <caret line="207" column="34" lean-forward="true" selection-start-line="207" selection-start-column="34" selection-end-line="207" selection-end-column="34" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
