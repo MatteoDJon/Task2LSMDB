@@ -2,10 +2,78 @@ import pymongo
 from datetime import datetime
 from getpass import getpass
 from pprint import pprint
+from neo4j import GraphDatabase
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 import re
+
+class GraphConnect:
+    def __init__(self):
+        self.driver=GraphDatabase.driver("bolt://localhost",auth=("neo4j","root"))
+    
+    def delete(self,type,name,optionalName):
+        deleteString=""
+        secondaryDelete=""
+        if(type=="Nation"):
+            deleteString='MATCH(hotel:Hotel{nation:"'+name+'"})<-[r:TO]-(reviewer:Reviewer) DELETE hotel,r'
+            secondaryDelete='MATCH(hotel:Hotel{nation:"'+name+'"}) DELETE hotel'
+        elif(type=="City"):
+            deleteString='MATCH(hotel:Hotel{city:"'+name+'"})<-[r:TO]-(reviewer:Reviewer) DELETE hotel,r'
+            secondaryDelete='MATCH(hotel:Hotel{city:"'+name+'"}) DELETE hotel'
+        elif(type=="Reviewer"):
+            deleteString='MATCH(hotel:Hotel)<-[r:TO]-(reviewer:Reviewer{name:"'+name+'"}) DELETE reviewer,r'
+            secondaryDelete='MATCH(reviewer:Reviewer{name:"'+name+'"}) DELETE reviewer'
+        elif(type=="Hotel"):
+            deleteString='MATCH(hotel:Hotel{name:"'+name+'"})<-[r:TO]-(reviewer:Reviewer) DELETE hotel,r'
+            secondaryDelete='MATCH(hotel:Hotel{name:"'+name+'"}) DELETE hotel'
+        elif(type=="Review"):
+            deleteString='MATCH(hotel:Hotel{name:"'+name+'"})<-[r:TO]-(reviewer:Reviewer{name:"'+optionalName+'"}) DELETE r'
+        else:
+            pass
+        session=self.driver.session()
+        session.run(deleteString)
+        if(secondaryDelete!=""):
+            session.run(secondaryDelete)
+        session.close()
+        
+    def getPopularHotel(self,type,parameters):
+        startString='MATCH(hotel:Hotel)<-[review:TO]-(reviewer:Reviewer) WITH hotel,count(review) as c'
+        parameterString=""
+        if(type=="Nation"):
+            parameterString=' WHERE hotel.nation="'+parameters[0]+'"'
+        else:
+            parameterString=' WHERE hotel.nation="'+parameters[0]+'"'+' and hotel.city="'+parameters[1]+'"'
+        endString=' RETURN hotel.name ORDER BY c DESC LIMIT 30'
+        totalString=(startString+parameterString+endString)
+        session=self.driver.session()
+        result=session.run(totalString)
+        session.close()
+        return result
+    
+    def getPopularReviewer(self,type,parameters):
+        startString='MATCH(hotel:Hotel{'
+        parameterString=""
+        if(type=="Nation"):
+            parameterString='nation:"'+parameters[0]+'"'
+        else:
+            parameterString='nation:"'+parameters[0]+'"'+',city="'+parameters[1]+'"'
+        endString='})<-[review:TO]-(reviewer:Reviewer) WITH reviewer,count(review) as c RETURN reviewer.name,c ORDER BY c DESC LIMIT 30'
+        totalString=(startString+parameterString+endString)
+        session=self.driver.session()
+        result=session.run(totalString)
+        session.close()
+        return result
+    
+    def getReccomendedHotel(self,reviewerName):
+        startString='MATCH(reviewer:Reviewer)-[firstReview:TO]->(hotel:Hotel)<-[secondReview:TO]-(secondReviewer:Reviewer)-[thirdReview:TO]->(secondHotel:Hotel) WHERE reviewer.name="'
+        parameterString=reviewerName+'"'
+        endString='and toFloat(firstReview.vote)>7 and toFloat(secondReview.vote)>7 and toFloat(thirdReview.vote)>7 and reviewer<>secondReviewer and secondHotel<>hotel WITH reviewer,collect(secondHotel)as goodHotel UNWIND goodHotel as searchedHotel RETURN searchedHotel.name'
+        totalString=(startString+parameterString+endString)
+        session=self.driver.session()
+        result=session.run(totalString)
+        session.close()
+        return result
 
 class Connect:
 
@@ -28,7 +96,6 @@ class Connect:
         self.db.Nation.delete_one({"name":entityName})
             
     def deleteReviewerOnNationFromDB(self,nationName,reviewerName):
-        #self.db.Hotel.update_many({"nation":nationName},{"$pull":{"reviewList":{"reviewer":reviewerName}}})
         self.db.Nation.update_one({"name":nationName},{"$pull":{"reviewers":reviewerName}})
     
     def deleteReviewOnHotelFromDB(self,nationName,hotelName,reviewer,month,year,text):
@@ -84,8 +151,11 @@ class Connect:
     def monthNationStatistics(self,entityName):
          return self.db.Hotel.aggregate([{"$match":{"nation":entityName}},{"$unwind":"$reviewList"},{"$group":{"_id":"$reviewList.month","average":{"$avg":"$reviewList.vote"},"count":{"$sum":1}}}])
 
-    def search(self,entity,entityName):
-        return self.db.Hotel.count_documents({entity:entityName})
+    def searchCity(self,nation,city):
+        return self.db.Hotel.count_documents({"nation":nation,"city":city})
+    
+    def searchNation(self,nation):
+        return self.db.Hotel.count_documents({"nation":nation})
     
     def searchUser(self,username,password):
         return self.db.User.count_documents({"username":username,"password":password})
@@ -102,12 +172,13 @@ class middleLayer:
         self.classValutation = [ "none","bad","average","good"]
         self.columns = os.popen('stty size', 'r').read().split()[1]
         self.connection=Connect()
+        self.graphConnection=GraphConnect()
    
     def closeConnection(self):
         self.connection.close()
     
     def deleteCity(self,nation,city):
-        if(self.presence("city",city)==False):
+        if(self.presence("city",nation,city)==False):
             print("Unable to delete, city not present"+"\n")
             return
         else:
@@ -118,9 +189,12 @@ class middleLayer:
     def deleteHotel(self,nation,hotel):
         self.connection.deleteHotelFromDB(nation,hotel)
         self.deleteUsersFromNation(nation)
+    
+    def deleteOnGraphDB(self,type,name,optionalName):
+        self.graphConnection.delete(type,name,optionalName)
         
     def deleteNation(self,nation):
-        if(self.presence("nation",nation)==False):
+        if(self.presence("nation",nation,"")==False):
             print("Unable to delete, nation not present"+"\n")
             return
         else:
@@ -160,10 +234,12 @@ class middleLayer:
             hotelName=element["name"]
             review=element["reviewList"]
             self.connection.deleteReviewOnHotelFromDB(nationName,hotelName,reviewerName,review["month"],review["year"],review["text"])
+            self.deleteOnGraphDB("Review",hotelName,reviewerName)
             print("Delete with success!"+"\n")
             self.updateHotel(review["vote"],hotelName)
             if(len(reviews)==1):
                 self.connection.deleteReviewerOnNationFromDB(nationName,reviewerName)
+                self.deleteOnGraphDB("Reviewer",reviewerName,"")
     
     def deleteReviewer(self,reviewer):
         nationPresent=list(self.connection.getNationsFromReviewer(reviewer))
@@ -200,8 +276,12 @@ class middleLayer:
             reviews.append(review["reviewList"])
         return reviews
             
-    def presence(self,entityType,entityName):
-        if(self.connection.search(entityType,entityName)>0):
+    def presence(self,entityType,nation,accessoryCity):
+        if(entityType=="Nation"):
+            count=self.connection.searchNation(nation)
+        else:
+            count=self.connection.searchCity(nation,accessoryCity)
+        if(count>0):
             return True
         else:
             return False
@@ -348,6 +428,49 @@ class middleLayer:
             figureNumber+=1
         plt.show()
     
+    def showPopularHotel(self,type,parameters):
+        result=self.graphConnection.getPopularHotel(type,parameters)
+        count=0
+        self.printLine()
+        for record in result:
+            print(record["hotel.name"])
+            count+=1
+        if(count==0 and type=="Nation"):
+            print("Nation non existing")
+        elif(count==0 and type=="City"):
+            print("City non existing")
+        else:
+            pass
+        self.printLine()
+    
+    def showPopularReviewer(self,type,parameters):
+        result=self.graphConnection.getPopularReviewer(type,parameters)
+        count=0
+        self.printLine()
+        for record in result:
+            print(record["reviewer.name"])
+            count+=1
+        if(count==0 and type=="Nation"):
+            print("Nation non existing")
+        elif(count==0 and type=="City"):
+            print("City non existing")
+        else:
+            pass
+        self.printLine()
+    
+    def showReccomendedHotel(self,reviewerName):
+        result=self.graphConnection.getReccomendedHotel(reviewerName)
+        count=0
+        self.printLine()
+        for record in result:
+            print(record["searchedHotel.name"])
+            count+=1
+        if(count==0):
+            print("No reccomended hotel or user not present")
+        else:
+            pass
+        self.printLine()
+     
     def showReviewsOfReviewer(self,nationName,reviewerName):
         self.reviewerName=reviewerName
         dimensionReviewAttributes=len(self.reviewAttributes)
@@ -367,7 +490,6 @@ class middleLayer:
         print("-"*int(self.columns))         
     
     def updateHotel(self,lessValue,hotelName):
-        print(lessValue)
         hotel=self.connection.find_hotel(hotelName)
         numberReview=int(hotel["numberReview"])
         averageVote=float(hotel["averageVote"])
@@ -380,12 +502,12 @@ class frontEnd:
   
     def __init__(self):
        
-        self.firstLevelCommands=["!browseNations","!findHotel","!findReviewer","!deleteHotel","!deleteReviewer","!deleteReview","!commands","!login","!logout","!quit"]
-        self.firstLevelDescriptions=[": read all the nation",": search an hotel and read its informations",": search a reviewer and read its information",": delete an hotel",": delete a reviewer",": delete the review whose number is in the list of the reviews you've read",": read all the commands",": login in with your credentials","",": exit from the application"]
-        self.secondLevelDescription=[ ": show the statistics of a nation of the list",": show the analytics of a nation of the list",": read the cities of a nation",": delete a nation(only if you're an admin)",": read all the commands",": login in with your credentials","",": return to the main level",": exit from the application"]  
-        self.secondLevelCommands=["!showStatistics","!showAnalytics","!browseCities","!delete","!commands","!login","!logout","!back","!quit"] 
-        self.thirdLevelCommands=["!showStatistics","!showAnalytics","!delete","!commands","!login","!logout","!back","!quit"]
-        self.thirdLevelDescription=[ ": show the statistics of a city of the list",": show the analytics of a city of the list",": delete a city(only if you're an admin)",": read all the commands",": login in with your credentials","",": return to the nation level",": exit from the application"]       
+        self.firstLevelCommands=["!browseNations","!findHotel","!findReviewer","!reccomendedHotelForReviewer","!deleteHotel","!deleteReviewer","!deleteReview","!commands","!login","!logout","!quit"]
+        self.firstLevelDescriptions=[": read all the nation",": search an hotel and read its informations",": search a reviewer and read its information",": read the suggested hotel for a reviewer",": delete an hotel",": delete a reviewer",": delete the review whose number is in the list of the reviews you've read",": read all the commands",": login in with your credentials","",": exit from the application"]
+        self.secondLevelDescription=[ ": show the statistics of a nation of the list",": show the analytics of a nation of the list",": read the cities of a nation",": show the most popular hotels of the nation",": show the most popular reviewers of the nation",": delete a nation(only if you're an admin)",": read all the commands",": login in with your credentials","",": return to the main level",": exit from the application"]  
+        self.secondLevelCommands=["!showStatistics","!showAnalytics","!browseCities","!popularHotels","!popularReviewers","!delete","!commands","!login","!logout","!back","!quit"] 
+        self.thirdLevelCommands=["!showStatistics","!showAnalytics","!popularHotels","!popularReviewers","!delete","!commands","!login","!logout","!back","!quit"]
+        self.thirdLevelDescription=[ ": show the statistics of a city of the list",": show the analytics of a city of the list",": show the most popular hotels of the city",": show the most popular reviewers of the nation",": delete a city(only if you're an admin)",": read all the commands",": login in with your credentials","",": return to the nation level",": exit from the application"]       
         self.typeUser="generic"
         self.level="first"
         self.middleLayer=middleLayer()
@@ -429,6 +551,10 @@ class frontEnd:
                 reviewList=self.middleLayer.showReviewsOfReviewer(nation,reviewerName)
             return True
         elif(commandType==self.firstLevelCommands[3]):
+            reviewerName=input("Insert Reviewer Name:")
+            self.middleLayer.showReccomendedHotel(reviewerName)
+            return True
+        elif(commandType==self.firstLevelCommands[4]):
             if(self.typeUser=="generic"):
                 print("You don't have the credentials!"+"\n")
                 return True
@@ -438,28 +564,30 @@ class frontEnd:
                 print("Missing some informations!"+"\n")
             else:
                 if(self.middleLayer.deleteHotel(splittedInput[0],splittedInput[1])==True):
+                    self.middleLayer.deleteOnGraphDB("Hotel",splittedInput[1],"")
                     print("Successfull delete!"+"\n")
                 else:
                     print("Unable to delete!"+"\n")
             return True
-        elif(commandType==self.firstLevelCommands[4]):
+        elif(commandType==self.firstLevelCommands[5]):
             if(self.typeUser=="generic"):
                 print("You don't have the credentials!"+"\n")
                 return True
             reviewerName=input("Insert Reviewer Name:")
             self.middleLayer.deleteReviewer(reviewerName)
+            self.middleLayer.deleteOnGraphDB("Reviewer",reviewerName,"")
             return True
-        elif(commandType==self.firstLevelCommands[5]):
+        elif(commandType==self.firstLevelCommands[6]):
             if(self.typeUser=="generic"):
                 print("You don't have the credentials!"+"\n")
                 return True
             inputString=input("Insert reviewer, nation and review number:")
             self.middleLayer.deleteReview(inputString)
             return True
-        elif(commandType==self.firstLevelCommands[6]):
+        elif(commandType==self.firstLevelCommands[7]):
             self.showCommands()
             return True
-        elif(commandType==self.firstLevelCommands[7]):
+        elif(commandType==self.firstLevelCommands[8]):
             credentials=input("Insert User and Password separated from a ,"+"\n")
             splittedCredentials=credentials.split(',')
             if(self.typeUser=="generic" and len(splittedCredentials)==2 and self.middleLayer.presenceUser(splittedCredentials[0],splittedCredentials[1])==True):
@@ -468,14 +596,14 @@ class frontEnd:
             else:
                 print("Login failed or yet done!"+"\n")
             return True
-        elif(commandType==self.firstLevelCommands[8]):
+        elif(commandType==self.firstLevelCommands[9]):
             if(self.typeUser=="admin"):
                 self.typeUser="generic"
                 print("Logout successfull!"+"\n")
             else:
                 print("You're not logged in!"+"\n")
             return True
-        elif(commandType==self.firstLevelCommands[9]):
+        elif(commandType==self.firstLevelCommands[10]):
             print("The application is closing!")
             self.middleLayer.closeConnection()
             return False
@@ -490,19 +618,19 @@ class frontEnd:
             commandType=input("Command choice: ")         
             if(commandType==self.secondLevelCommands[0]):
                 nationName=input("Insert the name of the nation: ")
-                if(self.middleLayer.presence("nation",nationName)==False):
+                if(self.middleLayer.presence("Nation",nationName,"")==False):
                     print("Nation unknown or not inserted,try again!"+"\n")
                 else:
                     self.middleLayer.showNationStatistics(nationName)
             elif(commandType==self.secondLevelCommands[1]):
                 nationName=input("Insert the name of the nation: ")
-                if(self.middleLayer.presence("nation",nationName)==False):
+                if(self.middleLayer.presence("Nation",nationName,"")==False):
                     print("Nation unknown or not inserted,try again!"+"\n")
                 else:
                     self.middleLayer.showNationAnalytics(nationName)
             elif(commandType==self.secondLevelCommands[2]):
                 nationName=input("Insert the name of the nation: ")
-                if(self.middleLayer.presence("nation",nationName)==False):
+                if(self.middleLayer.presence("Nation",nationName,"")==False):
                     print("Nation unknown or not inserted,try again!"+"\n")
                 else:
                     self.middleLayer.showCities(nationName)
@@ -512,14 +640,25 @@ class frontEnd:
                     if(continueWhile==False):
                         continueApplication=False
             elif(commandType==self.secondLevelCommands[3]):
+                nationName=input("Insert the name of the nation: ")
+                parameters=[]
+                parameters.append(nationName)
+                self.middleLayer.showPopularHotel("Nation",parameters)
+            elif(commandType==self.secondLevelCommands[4]):
+                nationName=input("Insert the name of the nation: ")
+                parameters=[]
+                parameters.append(nationName)
+                self.middleLayer.showPopularReviewer("Nation",parameters)
+            elif(commandType==self.secondLevelCommands[5]):
                 if(self.typeUser=="generic"):
                     print("You don't have the credentials to do this operation!"+"\n")
                 else:
                     nationName=input("Insert the name of the nation: ")
                     self.middleLayer.deleteNation(nationName)
-            elif(commandType==self.secondLevelCommands[4]):
+                    self.middleLayer.deleteOnGraphDB("Nation",nationName,"")
+            elif(commandType==self.secondLevelCommands[6]):
                 self.showCommands()
-            elif(commandType==self.secondLevelCommands[5]):
+            elif(commandType==self.secondLevelCommands[7]):
                 credentials=input("Insert User and Password separated from a ,"+"\n")
                 splittedCredentials=credentials.split(',')
                 if(self.typeUser=="generic" and len(splittedCredentials)==2 and self.middleLayer.presenceUser(splittedCredentials[0],splittedCredentials[1])==True):
@@ -527,18 +666,18 @@ class frontEnd:
                     print("Login successfull")
                 else:
                     print("Login failed or yet done!"+"\n")
-            elif(commandType==self.secondLevelCommands[6]):
+            elif(commandType==self.secondLevelCommands[8]):
                 if(self.typeUser=="admin"):
                     self.typeUser="generic"
                     print("Logout successfull!"+"\n")
                 else:
                     print("You're not logged in!"+"\n")
-            elif(commandType==self.secondLevelCommands[7]):
+            elif(commandType==self.secondLevelCommands[9]):
                 self.level="first"
                 print("Back to precedent level"+"\n")
                 continueWhile=False
                 continueApplication=True
-            elif(commandType==self.secondLevelCommands[8]):
+            elif(commandType==self.secondLevelCommands[10]):
                 print("The application is closing!"+"\n")
                 self.middleLayer.closeConnection()
                 continueWhile=False
@@ -555,25 +694,38 @@ class frontEnd:
             commandType=input("Command choice: ")
             if(commandType==self.thirdLevelCommands[0]):
                 cityName=input("Insert the name of the city: ")
-                if(self.middleLayer.presence("city",cityName)==False):
+                if(self.middleLayer.presence("city",nation,cityName)==False):
                     print("City unknown or not inserted,try again!"+"\n")
                 else:
                     self.middleLayer.showCityStatistics(nation,cityName)
             elif(commandType==self.thirdLevelCommands[1]):
                 cityName=input("Insert the name of the city: ")
-                if(self.middleLayer.presence("city",cityName)==False):
+                if(self.middleLayer.presence("city",nation,cityName)==False):
                     print("City unknown or not inserted,try again!"+"\n")
                 else:
                     self.middleLayer.showCityAnalytics(nation,cityName)
             elif(commandType==self.thirdLevelCommands[2]):
                 cityName=input("Insert the name of the city: ")
+                parameters=[]
+                parameters.append(nation)
+                parameters.append(cityName)
+                self.middleLayer.showPopularHotel("City",parameters)
+            elif(commandType==self.thirdLevelCommands[3]):
+                cityName=input("Insert the name of the city: ")
+                parameters=[]
+                parameters.append(nation)
+                parameters.append(cityName)
+                self.middleLayer.showPopularHotel("City",parameters)   
+            elif(commandType==self.thirdLevelCommands[4]):
+                cityName=input("Insert the name of the city: ")
                 if(self.typeUser=="generic"):
                     print("You don't have the credentials to do this operation!"+"\n")
                 else:
                     self.middleLayer.deleteCity(nation,cityName)
-            elif(commandType==self.thirdLevelCommands[3]):
+                    self.middleLayer.deleteOnGraphDB("City",cityName,"")
+            elif(commandType==self.thirdLevelCommands[5]):
                 self.showCommands()
-            elif(commandType==self.thirdLevelCommands[4]):
+            elif(commandType==self.thirdLevelCommands[6]):
                 credentials=input("Insert User and Password separated from a ,"+"\n")
                 splittedCredentials=credentials.split(',')
                 if(self.typeUser=="generic" and len(splittedCredentials)==2 and self.middleLayer.presenceUser(splittedCredentials[0],splittedCredentials[1])==True):
@@ -581,18 +733,18 @@ class frontEnd:
                     print("Login successfull")
                 else:
                     print("Login failed or yet done!"+"\n")
-            elif(commandType==self.thirdLevelCommands[5]):
+            elif(commandType==self.thirdLevelCommands[7]):
                 if(self.typeUser=="admin"):
                     self.typeUser="generic"
                     print("Logout successfull!"+"\n")
                 else:
                     print("You're not logged in!"+"\n")
-            elif(commandType==self.thirdLevelCommands[6]):
+            elif(commandType==self.thirdLevelCommands[8]):
                 print("Back to precedent level"+"\n")
                 self.level="second"
                 continueWhile=False
                 continueApplication=True
-            elif(commandType==self.thirdLevelCommands[7]):
+            elif(commandType==self.thirdLevelCommands[9]):
                 print("The application is closing!"+"\n")
                 self.middleLayer.closeConnection()
                 continueWhile=False
