@@ -226,26 +226,27 @@ class middleLayer:
         self.printLine()
     
     def showHotel(self,hotelName):
-        dc=self.connection.find_hotel(hotelName)
-        if dc is None:
-                print("There isn't an hotel with this name in the database!")
-        else:
-            print("-"*int(self.columns))
-            dimensionHotelAttributes=len(self.hotelAttributes)
-            firstIndex=0
-            while firstIndex<dimensionHotelAttributes-1:
-                print(self.hotelAttributes[firstIndex]+ ": "+str(dc[self.hotelAttributes[firstIndex]])+"\n")
-                firstIndex+=1
-            print("Reviews: "+"\n")
-            print("-"*int(self.columns))
-            reviewList=dc["reviewList"]
-            dimensionReviewAttributes=len(self.reviewAttributes)
-            for review in reviewList:
-                secondIndex=0
-                while secondIndex<dimensionReviewAttributes:
-                    print(self.reviewAttributes[secondIndex]+": "+str(review[self.reviewAttributes[secondIndex]])+"\n")
-                    secondIndex+=1
+        listHotel=list(self.connection.find_hotel(hotelName))
+        for dc in listHotel:
+            if dc is None:
+                    print("There isn't an hotel with this name in the database!")
+            else:
                 print("-"*int(self.columns))
+                dimensionHotelAttributes=len(self.hotelAttributes)
+                firstIndex=0
+                while firstIndex<dimensionHotelAttributes-1:
+                    print(self.hotelAttributes[firstIndex]+ ": "+str(dc[self.hotelAttributes[firstIndex]])+"\n")
+                    firstIndex+=1
+                print("Reviews: "+"\n")
+                print("-"*int(self.columns))
+                reviewList=dc["reviewList"]
+                dimensionReviewAttributes=len(self.reviewAttributes)
+                for review in reviewList:
+                    secondIndex=0
+                    while secondIndex<dimensionReviewAttributes:
+                        print(self.reviewAttributes[secondIndex]+": "+str(review[self.reviewAttributes[secondIndex]])+"\n")
+                        secondIndex+=1
+                    print("-"*int(self.columns))
     
     def showHotelList(self,hotelList):
         print("List of the hotel"+"\n")

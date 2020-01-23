@@ -229,7 +229,7 @@ class frontEnd:
                 parameters=[]
                 parameters.append(nation)
                 parameters.append(cityName)
-                self.middleLayer.showPopularHotel("City",parameters)   
+                self.middleLayer.showPopularReviewer("City",parameters)   
             elif(commandType==self.thirdLevelCommands[4]):
                 cityName=input("Insert the name of the city: ")
                 if(self.typeUser=="generic"):

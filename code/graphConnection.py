@@ -52,7 +52,7 @@ class GraphConnect:
             parameterString=' WHERE hotel.nation="'+parameters[0]+'"'
         else:
             parameterString=' WHERE hotel.nation="'+parameters[0]+'"'+' and hotel.city="'+parameters[1]+'"'
-        endString=' RETURN hotel.name order by hotel.count desc LIMIT 30'
+        endString=' RETURN hotel.name order by hotel.count desc LIMIT 50'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
@@ -65,8 +65,8 @@ class GraphConnect:
         if(type=="Nation"):
             parameterString='nation:"'+parameters[0]+'"'
         else:
-            parameterString='nation:"'+parameters[0]+'"'+',city="'+parameters[1]+'"'
-        endString='})<-[review:TO]-(reviewer:Reviewer) WITH distinct reviewer.name as nameReviewer,reviewer.count as countReviewer ORDER BY countReviewer desc RETURN nameReviewer limit 30'
+            parameterString='nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'
+        endString='})<-[review:TO]-(reviewer:Reviewer) WITH distinct reviewer.name as nameReviewer,reviewer.count as countReviewer ORDER BY countReviewer desc RETURN nameReviewer limit 50'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
@@ -76,7 +76,7 @@ class GraphConnect:
     def getReccomendedHotel(self,reviewerName):
         startString='MATCH(reviewer:Reviewer)-[firstReview:TO]->(hotel:Hotel)<-[secondReview:TO]-(secondReviewer:Reviewer)-[thirdReview:TO]->(secondHotel:Hotel) WHERE reviewer.name="'
         parameterString=reviewerName+'"'
-        endString='and toFloat(firstReview.vote)>7 and toFloat(secondReview.vote)>7 and toFloat(thirdReview.vote)>7 and reviewer<>secondReviewer and secondHotel<>hotel WITH reviewer,collect(secondHotel)as goodHotel UNWIND goodHotel as searchedHotel RETURN searchedHotel.name'
+        endString='and toFloat(firstReview.vote)>7 and toFloat(secondReview.vote)>7 and toFloat(thirdReview.vote)>7 and reviewer<>secondReviewer and secondHotel<>hotel WITH reviewer,collect(secondHotel)as goodHotel UNWIND goodHotel as searchedHotel RETURN searchedHotel.name LIMIT 10'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
