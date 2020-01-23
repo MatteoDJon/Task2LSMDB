@@ -24,7 +24,7 @@ class Connect:
         return self.db.hotel.delete_many({"nation":nation,"city":city})
     
     def deleteHotelFromDB(self,nation,hotel):
-        return self.db.hotel.delete_one({"nation":nation,"name":hotel})
+        return self.db.hotel.delete_many({"nation":nation,"name":hotel})
     
     def deleteNationFromDB(self,entityName):
         self.db.hotel.delete_many({"nation":entityName})
@@ -37,7 +37,7 @@ class Connect:
         return self.db.hotel.update_one({"nation":nationName,"name":hotelName},{"$pull":{"reviewList":{"reviewer":reviewer,"month":month,"year":year,"text":text}}})
     
     def find_hotel(self,hotelName):
-        return self.db.hotel.find_one({"name":hotelName})
+        return self.db.hotel.find({"name":hotelName})
     
     def find_nations(self):
         return self.db.Nation.find({},{"name":1,"_id":0})
@@ -93,4 +93,4 @@ class Connect:
         return self.db.User.count_documents({"username":username,"password":password})
 
     def updateHotelOnDB(self,nationName,hotelName,newNumberVote,newAverageVote):
-        self.db.hotel.update_one({"nation":nationName,"name":hotelName},{"$set":{"numberReview":newNumberVote,"averageVote":newAverageVote}})
+        self.db.hotel.update_many({"nation":nationName,"name":hotelName},{"$set":{"numberReview":newNumberVote,"averageVote":newAverageVote}})

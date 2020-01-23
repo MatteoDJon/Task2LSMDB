@@ -39,20 +39,20 @@ class GraphConnect:
         session.close()
     
     def getFakeReviewer(self,nation):
-        executionString="CALL algo.betweenness.stream('MATCH (reviewer:Reviewer) RETURN id(reviewer) as id','MATCH (a1:Reviewer)-[:TO]->(n:Hotel{nation:"+'"'+nation+'"'+"})<-[:TO]-(a:Reviewer) RETURN id(a) as source,id(a1) as target',{graph:'cypher'}) YIELD nodeId,centrality RETURN algo.getNodeById(nodeId).name,centrality order by centrality desc"
+        executionString="CALL algo.betweenness.stream('MATCH (reviewer:Reviewer) RETURN id(reviewer) as id','MATCH (a1:Reviewer)-[:TO]->(n:Hotel{nation:"+'"'+nation+'"'+"})<-[:TO]-(a:Reviewer) RETURN id(a) as source,id(a1) as target',{graph:'cypher'}) YIELD nodeId,centrality RETURN algo.getNodeById(nodeId).name,centrality order by centrality desc LIMIT 20"
         session=self.driver.session()
         result=session.run(executionString)
         session.close()
         return result
     
     def getPopularHotel(self,type,parameters):
-        startString='MATCH(hotel:Hotel)<-[review:TO]-(reviewer:Reviewer) WITH hotel,count(review) as c'
+        startString='MATCH(hotel:Hotel)'
         parameterString=""
         if(type=="Nation"):
             parameterString=' WHERE hotel.nation="'+parameters[0]+'"'
         else:
             parameterString=' WHERE hotel.nation="'+parameters[0]+'"'+' and hotel.city="'+parameters[1]+'"'
-        endString=' RETURN hotel.name ORDER BY c DESC LIMIT 30'
+        endString=' RETURN hotel.name order by hotel.count desc LIMIT 30'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
@@ -66,7 +66,7 @@ class GraphConnect:
             parameterString='nation:"'+parameters[0]+'"'
         else:
             parameterString='nation:"'+parameters[0]+'"'+',city="'+parameters[1]+'"'
-        endString='})<-[review:TO]-(reviewer:Reviewer) WITH reviewer,count(review) as c RETURN reviewer.name,c ORDER BY c DESC LIMIT 30'
+        endString='})<-[review:TO]-(reviewer:Reviewer) WITH distinct reviewer.name as nameReviewer,reviewer.count as countReviewer ORDER BY countReviewer desc RETURN nameReviewer limit 30'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
