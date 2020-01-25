@@ -18,10 +18,10 @@ import random
 
 class Connection:
     def __init__(self):
-        #self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-        self.myclient=pymongo.MongoClient('mongodb://spider:spider@172.16.0.148:27020/test')    
-        #self.db=self.myclient['tripbooking'] 
-        self.db=self.myclient['db']
+        self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        #self.myclient=pymongo.MongoClient('mongodb://spider:spider@172.16.0.148:27020/test')    
+        self.db=self.myclient['tripbooking'] 
+        #self.db=self.myclient['db']
 
     def presence(self,nation,city,hotelName):
         return self.db.hotel.count_documents({"nation":nation,"city":city,"name":hotelName})
@@ -185,7 +185,8 @@ def main() :
             parsedReviews=lineReview.split('],')
             try:
                 if(lineReview!=']'):
-                    for review in parsedReviews:
+                    for review in parsedReviews:                       
+                        dataForNeo=[]
                         fields=review.split(',')
                         dimText=len(fields)
                         indexText=4
@@ -200,10 +201,18 @@ def main() :
                         d["year"]=fields[2].replace("'","")
                         reviewerName=fields[0].replace("'","")
                         d["reviewer"]=reviewerName
+                        dataForNeo.append(hotelName)
+                        dataForNeo.append(cityName)
+                        dataForNeo.append(nationName)
+                        dataForNeo.append(reviewerName)
+                        dataForNeo.append(float(fields[3].replace("'","")))                       
                         if not searchReviewInReviews(reviewsPresent,d):
                             reviewsPresent.append(d)
                             if not searchReviewer(allReviewers,reviewerName):
                                 allReviewers.append(reviewerName)
+                        with open('updateForNeo4j.csv','a',newline='',encoding="utf-8") as f:
+                            writer=csv.writer(f,delimiter=',')
+                            writer.writerow(dataForNeo)
                 connection.updateReviewList(nationName,cityName,hotelName,reviewsPresent)    
             except: 
                 pass
