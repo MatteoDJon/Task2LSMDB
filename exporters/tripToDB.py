@@ -18,10 +18,10 @@ import random
 
 class Connection:
     def __init__(self):
-        self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-        #self.myclient=pymongo.MongoClient('mongodb://spider:spider@172.16.0.148:27020/test')    
-        self.db=self.myclient['tripbooking'] 
-        #self.db=self.myclient['db']
+        #self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        self.myclient=pymongo.MongoClient('mongodb://spider:spider@172.16.0.148:27020/test')    
+        #self.db=self.myclient['tripbooking'] 
+        self.db=self.myclient['db']
 
     def presence(self,nation,city,hotelName):
         return self.db.hotel.count_documents({"nation":nation,"city":city,"name":hotelName})
