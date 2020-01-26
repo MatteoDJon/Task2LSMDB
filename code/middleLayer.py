@@ -21,6 +21,9 @@ class middleLayer:
         self.connection=Connect()
         self.graphConnection=GraphConnect()
    
+    def callSwitchConnection(self,type):
+        self.connection.switchConnection(type)
+   
     def closeConnection(self):
         self.connection.close()
     

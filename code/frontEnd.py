@@ -103,6 +103,7 @@ class frontEnd:
             splittedCredentials=credentials.split(',')
             if(self.typeUser=="generic" and len(splittedCredentials)==2 and self.middleLayer.presenceUser(splittedCredentials[0],splittedCredentials[1])==True):
                 self.typeUser="admin"
+                self.middleLayer.callSwitchConnection("generic")
                 print("Login successfull")
             else:
                 print("Login failed or yet done!"+"\n")
@@ -110,6 +111,7 @@ class frontEnd:
         elif(commandType==self.firstLevelCommands[9]):
             if(self.typeUser=="admin"):
                 self.typeUser="generic"
+                self.middleLayer.callSwitchConnection("admin")
                 print("Logout successfull!"+"\n")
             else:
                 print("You're not logged in!"+"\n")
@@ -177,12 +179,14 @@ class frontEnd:
                 splittedCredentials=credentials.split(',')
                 if(self.typeUser=="generic" and len(splittedCredentials)==2 and self.middleLayer.presenceUser(splittedCredentials[0],splittedCredentials[1])==True):
                     self.typeUser="admin"
+                    self.middleLayer.callSwitchConnection("generic")
                     print("Login successfull")
                 else:
                     print("Login failed or yet done!"+"\n")
             elif(commandType==self.secondLevelCommands[9]):
                 if(self.typeUser=="admin"):
                     self.typeUser="generic"
+                    self.middleLayer.callSwitchConnection("admin")
                     print("Logout successfull!"+"\n")
                 else:
                     print("You're not logged in!"+"\n")
@@ -244,12 +248,14 @@ class frontEnd:
                 splittedCredentials=credentials.split(',')
                 if(self.typeUser=="generic" and len(splittedCredentials)==2 and self.middleLayer.presenceUser(splittedCredentials[0],splittedCredentials[1])==True):
                     self.typeUser="admin"
+                    self.middleLayer.callSwitchConnection("generic")
                     print("Login successfull")
                 else:
                     print("Login failed or yet done!"+"\n")
             elif(commandType==self.thirdLevelCommands[7]):
                 if(self.typeUser=="admin"):
                     self.typeUser="generic"
+                    self.middleLayer.callSwitchConnection("admin")
                     print("Logout successfull!"+"\n")
                 else:
                     print("You're not logged in!"+"\n")
@@ -266,3 +272,4 @@ class frontEnd:
             else:
                 print("Unknown command,try again!"+"\n")
         return continueApplication
+        

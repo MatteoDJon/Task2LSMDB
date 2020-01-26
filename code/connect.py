@@ -11,10 +11,10 @@ import re
 class Connect:
 
     def __init__(self):
-        #self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-        self.myclient=pymongo.MongoClient('mongodb://application:application@172.16.0.148:27020/test')    
-        #self.db=self.myclient['tripbooking'] 
-        self.db=self.myclient['db']
+        self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        #self.myclient=pymongo.MongoClient('mongodb://application:application@172.16.0.148:27020/test')    
+        self.db=self.myclient['tripbooking'] 
+        #self.db=self.myclient['db']
         
     def close(self):
         if self.myclient != "":
@@ -91,6 +91,13 @@ class Connect:
     
     def searchUser(self,username,password):
         return self.db.User.count_documents({"username":username,"password":password})
-
+    
+    def switchConnection(self,type):
+        self.close()
+        if(type=="generic"):
+                self.myclient=pymongo.MongoClient('mongodb://admin:admin@172.16.0.148:27020/test')
+        else:
+                self.myclient=pymongo.MongoClient('mongodb://application:application@172.16.0.148:27020/test')
+    
     def updateHotelOnDB(self,nationName,hotelName,newNumberVote,newAverageVote):
         self.db.hotel.update_many({"nation":nationName,"name":hotelName},{"$set":{"numberReview":newNumberVote,"averageVote":newAverageVote}})
