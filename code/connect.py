@@ -95,9 +95,9 @@ class Connect:
     def switchConnection(self,type):
         self.close()
         if(type=="generic"):
-                self.myclient=pymongo.MongoClient('mongodb://admin:admin@172.16.0.148:27020/test')
+                self.myclient=pymongo.MongoClient('mongodb://admin:admin@172.16.0.160:27020/test')
         else:
-                self.myclient=pymongo.MongoClient('mongodb://application:application@172.16.0.148:27020/test')
+                self.myclient=pymongo.MongoClient('mongodb://application:application@172.16.0.160:27020/test')
     
     def updateHotelOnDB(self,nationName,hotelName,newNumberVote,newAverageVote):
         self.db.hotel.update_many({"nation":nationName,"name":hotelName},{"$set":{"numberReview":newNumberVote,"averageVote":newAverageVote}})
