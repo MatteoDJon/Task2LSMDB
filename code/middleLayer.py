@@ -300,7 +300,7 @@ class middleLayer:
         count=0
         self.printLine()
         for record in result:
-            print(record["hotel.name"])
+            print(record["nameHotel"])
             count+=1
         if(count==0 and type=="Nation"):
             print("Nation non existing")

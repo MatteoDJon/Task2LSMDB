@@ -11,8 +11,8 @@ import re
 class GraphConnect:
 
     def __init__(self):
-        self.driver=GraphDatabase.driver("bolt://localhost",auth=("neo4j","root"))
-        #self.driver=Graph.Database.driver("bolt://172.16.0.160:7687",auth=("neo4j","LSMDB"))
+        #self.driver=GraphDatabase.driver("bolt://localhost",auth=("neo4j","root"))
+        self.driver=GraphDatabase.driver("bolt://172.16.0.160:7687",auth=("neo4j","LSMDB"))
     
     def delete(self,type,name,optionalName):
         deleteString=""
@@ -53,7 +53,7 @@ class GraphConnect:
             parameterString='{nation:"'+parameters[0]+'"'
         else:
             parameterString='{nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'
-        endString='})<-[review:Review]-(reviewer:Reviewer) RETURN hotel.name,count(review) as countHotel ORDER by countHotel desc limit 50'
+        endString='})<-[review:Review]-(reviewer:Reviewer) WITH hotel.name as nameHotel,count(review) as countHotel MATCH (nameHotel) where countHotel>5 return nameHotel,countHotel order by countHotel desc'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
@@ -67,7 +67,7 @@ class GraphConnect:
             parameterString='nation:"'+parameters[0]+'"'
         else:
             parameterString='nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'
-        endString='})<-[review:Review]-(reviewer:Reviewer) WITH distinct reviewer.name as nameReviewer,reviewer.count as countReviewer ORDER BY countReviewer desc RETURN nameReviewer limit 50'
+        endString='})<-[review:Review]-(reviewer:Reviewer) WITH distinct reviewer.name as nameReviewer,reviewer.count as countReviewer Match(nameReviewer) where countReviewer>5 RETURN nameReviewer,countReviewer ORDER BY countReviewer desc limit 50'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
