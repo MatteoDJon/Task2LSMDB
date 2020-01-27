@@ -18,19 +18,19 @@ class GraphConnect:
         deleteString=""
         secondaryDelete=""
         if(type=="Nation"):
-            deleteString='MATCH(hotel:Hotel{nation:"'+name+'"})<-[review:Review]-(reviewer:Reviewer) WITH reviewer,collect(review) as itsRels FOREACH (singleReview in itsRels | SET reviewer.count=reviewer.count-1) FOREACH(singleReview in itsRels| DELETE singleReview)'            
+            deleteString='MATCH(hotel:Hotel{nation:"'+name+'"})<-[review:Review]-(reviewer:Reviewer) WITH reviewer,collect(review) as itsRels FOREACH(singleReview in itsRels| DELETE singleReview)'            
             secondaryDelete='MATCH(hotel:Hotel{nation:"'+name+'"}) DELETE hotel'
         elif(type=="City"):
-            deleteString='MATCH(hotel:Hotel{city:"'+name+'"})<-[review:Review]-(reviewer:Reviewer) WITH reviewer,collect(review) as itsRels FOREACH (singleReview in itsRels | SET reviewer.count=reviewer.count-1) FOREACH(singleReview in itsRels| DELETE singleReview)'            
+            deleteString='MATCH(hotel:Hotel{city:"'+name+'"})<-[review:Review]-(reviewer:Reviewer) WITH reviewer,collect(review) as itsRels FOREACH(singleReview in itsRels| DELETE singleReview)'            
             secondaryDelete='MATCH(hotel:Hotel{city:"'+name+'"}) DELETE hotel'
         elif(type=="Reviewer"):
             deleteString='MATCH(hotel:Hotel)<-[r:Review]-(reviewer:Reviewer{name:"'+name+'"}) DELETE reviewer,r'
             secondaryDelete='MATCH(reviewer:Reviewer{name:"'+name+'"}) DELETE reviewer'
         elif(type=="Hotel"):
-            deleteString='MATCH(hotel:Hotel{name:"'+name+'"})<-[review:Review]-(reviewer:Reviewer) WITH reviewer,collect(review) as itsRels FOREACH (singleReview in itsRels | SET reviewer.count=reviewer.count-1) FOREACH(singleReview in itsRels| DELETE singleReview)'               
+            deleteString='MATCH(hotel:Hotel{name:"'+name+'"})<-[review:Review]-(reviewer:Reviewer) WITH reviewer,collect(review) as itsRels FOREACH(singleReview in itsRels| DELETE singleReview)'               
             secondaryDelete='MATCH(hotel:Hotel{name:"'+name+'"}) DELETE hotel'
         elif(type=="Review"):
-            deleteString='MATCH(hotel:Hotel{name:"'+name+'"})<-[review:Review]-(reviewer:Reviewer{name:"'+optionalName+'"}) SET reviewer.count=reviewer.count-1 DELETE review'
+            deleteString='MATCH(hotel:Hotel{name:"'+name+'"})<-[review:Review]-(reviewer:Reviewer{name:"'+optionalName+'"}) DELETE review'
         else:
             pass
         session=self.driver.session()
@@ -40,7 +40,7 @@ class GraphConnect:
         session.close()
     
     def getFakeReviewer(self,nation):
-        executionString="CALL algo.betweenness.stream('MATCH (reviewer:Reviewer) RETURN id(reviewer) as id','MATCH (a1:Reviewer)-[:Review]->(n:Hotel{nation:"+'"'+nation+'"'+"})<-[:Review]-(a:Reviewer) RETURN id(a) as source,id(a1) as target',{graph:'cypher'}) YIELD nodeId,centrality RETURN algo.getNodeById(nodeId).name,centrality order by centrality desc LIMIT 20"
+        executionString="CALL algo.betweenness.stream('MATCH (reviewer:Reviewer) RETURN id(reviewer) as id','MATCH (a1:Reviewer)-[:Review]->(n:Hotel{nation:"+'"'+nation+'"'+"})<-[:Review]-(a:Reviewer) RETURN id(a) as source,id(a1) as target',{graph:'cypher',strategy:'degree'}) YIELD nodeId,centrality RETURN algo.getNodeById(nodeId).name,centrality order by centrality desc LIMIT 20"
         session=self.driver.session()
         result=session.run(executionString)
         session.close()
@@ -50,10 +50,10 @@ class GraphConnect:
         startString='MATCH(hotel:Hotel'
         parameterString=""
         if(type=="Nation"):
-            parameterString='{nation:"'+parameters[0]+'"'
+            parameterString='{nation:"'+parameters[0]+'"'+'})<-[review:Review]-(reviewer:Reviewer) USING index hotel:Hotel(nation)'
         else:
-            parameterString='{nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'
-        endString='})<-[review:Review]-(reviewer:Reviewer) WITH hotel.name as nameHotel,count(review) as countHotel MATCH (nameHotel) where countHotel>5 return nameHotel,countHotel order by countHotel desc'
+            parameterString='{nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'+'})<-[review:Review]-(reviewer:Reviewer) USING index hotel:Hotel(city)'
+        endString='WITH distinct hotel.name as nameHotel,count(review) as countHotel RETURN nameHotel,countHotel ORDER BY countHotel desc limit 50'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
@@ -61,13 +61,13 @@ class GraphConnect:
         return result
     
     def getPopularReviewer(self,type,parameters):
-        startString='MATCH(hotel:Hotel{'
+        startString='MATCH(hotel:Hotel'
         parameterString=""
         if(type=="Nation"):
-            parameterString='nation:"'+parameters[0]+'"'
+            parameterString=parameterString='{nation:"'+parameters[0]+'"'+'})<-[review:Review]-(reviewer:Reviewer) USING index hotel:Hotel(nation)'
         else:
-            parameterString='nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'
-        endString='})<-[review:Review]-(reviewer:Reviewer) WITH distinct reviewer.name as nameReviewer,reviewer.count as countReviewer Match(nameReviewer) where countReviewer>5 RETURN nameReviewer,countReviewer ORDER BY countReviewer desc limit 50'
+            parameterString='{nation:"'+parameters[0]+'"'+',city:"'+parameters[1]+'"'+'})<-[review:Review]-(reviewer:Reviewer) USING index hotel:Hotel(city)'
+        endString='WITH distinct reviewer.name as nameReviewer,count(review) as countReviewer RETURN nameReviewer,countReviewer ORDER BY countReviewer desc limit 50'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
