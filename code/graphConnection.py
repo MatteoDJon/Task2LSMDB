@@ -77,7 +77,7 @@ class GraphConnect:
     def getReccomendedHotel(self,reviewerName):
         startString='MATCH(reviewer:Reviewer)-[firstReview:Review]->(hotel:Hotel)<-[secondReview:Review]-(secondReviewer:Reviewer)-[thirdReview:Review]->(secondHotel:Hotel) WHERE reviewer.name="'
         parameterString=reviewerName+'"'
-        endString='and toFloat(firstReview.vote)>7 and toFloat(secondReview.vote)>7 and toFloat(thirdReview.vote)>7 and reviewer<>secondReviewer and secondHotel<>hotel WITH reviewer,collect(secondHotel)as goodHotel UNWIND goodHotel as searchedHotel RETURN searchedHotel.name LIMIT 10'
+        endString='and toFloat(firstReview.vote)>7.0 and toFloat(secondReview.vote)>7.0 and toFloat(thirdReview.vote)>7.0 and reviewer<>secondReviewer and secondHotel<>hotel WITH reviewer,collect(secondHotel)as goodHotel UNWIND goodHotel as searchedHotel RETURN searchedHotel.name LIMIT 10'
         totalString=(startString+parameterString+endString)
         session=self.driver.session()
         result=session.run(totalString)
