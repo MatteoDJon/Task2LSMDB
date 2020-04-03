@@ -182,6 +182,7 @@ class Connect:
                     hot_num.append(hot["_id"])
                     for r in hot["Reviews"]:
                         rew_to_delete.append(r["_id"])
+                db.hotel.update({}, {"$pull": {"_id": {"$in": hot_num}}})
                 db.nation.update({}, {"$pull": {"Cities.cityName": choice}})
                 db.reviewer.update({}, {"$pull": {"Reviews": {"$in": rew_to_delete}}}, {"multi": "true"})
                 break
